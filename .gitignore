@@ -1,0 +1,54 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+.eggs/
+dist/
+build/
+venv/
+.venv/
+env/
+.env
+
+# ML model files (too large for git — use git-lfs or cloud storage)
+*.h5
+*.pb
+*.tflite
+*.onnx
+*.pkl
+*.joblib
+training_history.png
+
+# Dataset (too large for git)
+model/dataset/plantvillage/
+
+# Node / Frontend
+node_modules/
+frontend/dist/
+frontend/.cache/
+*.log
+npm-debug.log*
+
+# Docker
+.docker/
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+*.swp
+*.swo
+
+# IDE
+.vscode/
+.idea/
+*.code-workspace
+
+# Secrets
+.env
+*.pem
+*.key

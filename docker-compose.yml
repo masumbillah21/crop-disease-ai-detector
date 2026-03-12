@@ -1,0 +1,65 @@
+version: "3.9"
+
+services:
+
+  # ─── FastAPI Backend ───────────────────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: cropscan-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./model:/app/model:ro          # mount trained model files (read-only)
+      - model-cache:/root/.keras       # cache downloaded ImageNet weights
+    environment:
+      - MODEL_PATH=/app/model/crop_disease_model.h5
+      - CLASS_NAMES_PATH=/app/model/class_names.json
+      - PYTHONUNBUFFERED=1
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    restart: unless-stopped
+    networks:
+      - cropscan-net
+
+  # ─── React Frontend ────────────────────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: cropscan-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - cropscan-net
+
+  # ─── Nginx Reverse Proxy (optional unified entry point) ───────────
+  nginx:
+    image: nginx:1.25-alpine
+    container_name: cropscan-proxy
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - backend
+      - frontend
+    restart: unless-stopped
+    networks:
+      - cropscan-net
+
+volumes:
+  model-cache:
+
+networks:
+  cropscan-net:
+    driver: bridge
