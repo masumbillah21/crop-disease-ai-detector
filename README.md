@@ -132,9 +132,8 @@ The API auto-detects the model file and **switches from demo → real prediction
 ## 🏋️ Train the Model
 
 ```bash
-# 1. Download dataset from Kaggle:
-#    https://www.kaggle.com/datasets/abdallahalidev/plantvillage-dataset
-#    Extract to: model/dataset/plantvillage/
+# 1. Download dataset automatically:
+make download-dataset
 
 # 2. Train (locally, ~30-60 min with GPU):
 make train

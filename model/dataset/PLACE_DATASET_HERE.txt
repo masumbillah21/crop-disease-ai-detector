@@ -1,5 +1,8 @@
 # Place your PlantVillage dataset here
-# Download from: https://www.kaggle.com/datasets/abdallahalidev/plantvillage-dataset
+# You can now do this automatically by running:
+# make download-dataset
+#
+# Manual Download: https://www.kaggle.com/datasets/abdallahalidev/plantvillage-dataset
 #
 # Expected structure:
 # dataset/

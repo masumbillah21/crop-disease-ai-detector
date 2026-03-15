@@ -61,6 +61,10 @@ env-setup:
 train:
 	cd model && pip install tensorflow pillow numpy matplotlib && python train_model.py
 
+download-dataset:
+	pip install kagglehub
+	python model/download_dataset.py
+
 clean:
 	docker compose down -v
 
@@ -83,6 +87,7 @@ help:
 	@echo "  make shell-api    Shell into backend"
 	@echo "  make shell-ui     Shell into frontend"
 	@echo "  make env-setup    Create .env file"
+	@echo "  make download-dataset Download PlantVillage dataset"
 	@echo "  make train        Train ML model locally"
 	@echo "  make clean        Remove containers + volumes"
 	@echo "  make prune        Full wipe"
