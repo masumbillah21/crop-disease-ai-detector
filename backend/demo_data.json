@@ -1,0 +1,93 @@
+{
+  "predictions": [
+    {
+      "prediction": "Tomato___Late_blight",
+      "display_name": "Tomato Late Blight",
+      "confidence": 94.3,
+      "severity": "Critical",
+      "severity_color": "#e74c3c",
+      "description": "Devastating disease causing water-soaked lesions and plant death.",
+      "treatment": [
+        "Apply copper-based fungicides immediately",
+        "Remove and destroy infected plants",
+        "Avoid overhead irrigation",
+        "Apply chlorothalonil or mancozeb"
+      ],
+      "prevention": "Use certified disease-free seeds and resistant varieties",
+      "top5": [
+        {"class": "Tomato___Late_blight", "confidence": 0.943},
+        {"class": "Tomato___Early_blight", "confidence": 0.032},
+        {"class": "Tomato___healthy", "confidence": 0.015},
+        {"class": "Potato___Late_blight", "confidence": 0.007},
+        {"class": "Tomato___Leaf_Mold", "confidence": 0.003}
+      ]
+    },
+    {
+      "prediction": "Apple___Apple_scab",
+      "display_name": "Apple Scab",
+      "confidence": 88.7,
+      "severity": "Moderate",
+      "severity_color": "#f39c12",
+      "description": "Fungal disease causing dark, scabby lesions on leaves and fruits.",
+      "treatment": [
+        "Apply fungicide sprays during early spring",
+        "Remove and destroy infected leaves",
+        "Prune trees for better air circulation"
+      ],
+      "prevention": "Apply preventive fungicide before bud break",
+      "top5": [
+        {"class": "Apple___Apple_scab", "confidence": 0.887},
+        {"class": "Apple___Black_rot", "confidence": 0.071},
+        {"class": "Apple___Cedar_apple_rust", "confidence": 0.028},
+        {"class": "Apple___healthy", "confidence": 0.009},
+        {"class": "Cherry___Powdery_mildew", "confidence": 0.005}
+      ]
+    },
+    {
+      "prediction": "Apple___healthy",
+      "display_name": "Healthy Apple Plant",
+      "confidence": 97.1,
+      "severity": "None",
+      "severity_color": "#2ecc71",
+      "description": "The plant appears healthy with no signs of disease.",
+      "treatment": ["No treatment needed"],
+      "prevention": "Continue regular monitoring and good agricultural practices",
+      "top5": [
+        {"class": "Apple___healthy", "confidence": 0.971},
+        {"class": "Apple___Apple_scab", "confidence": 0.018},
+        {"class": "Apple___Black_rot", "confidence": 0.007},
+        {"class": "Apple___Cedar_apple_rust", "confidence": 0.003},
+        {"class": "Cherry___healthy", "confidence": 0.001}
+      ]
+    }
+  ],
+  "stats": {
+    "total_scans": 1247,
+    "diseases_detected": 892,
+    "healthy_plants": 355,
+    "accuracy": 96.4,
+    "most_common": [
+      {"name": "Tomato Late Blight", "count": 234, "percentage": 26.2},
+      {"name": "Apple Scab", "count": 189, "percentage": 21.2},
+      {"name": "Corn Gray Leaf Spot", "count": 156, "percentage": 17.5},
+      {"name": "Potato Late Blight", "count": 143, "percentage": 16.0},
+      {"name": "Corn Common Rust", "count": 98, "percentage": 11.0},
+      {"name": "Others", "count": 72, "percentage": 8.1}
+    ],
+    "recent_scans": [
+      {"date": "Mon", "scans": 45, "diseased": 32},
+      {"date": "Tue", "scans": 67, "diseased": 48},
+      {"date": "Wed", "scans": 89, "diseased": 61},
+      {"date": "Thu", "scans": 123, "diseased": 87},
+      {"date": "Fri", "scans": 98, "diseased": 71},
+      {"date": "Sat", "scans": 76, "diseased": 54},
+      {"date": "Sun", "scans": 54, "diseased": 39}
+    ],
+    "severity_breakdown": [
+      {"severity": "Critical", "count": 178, "color": "#e74c3c"},
+      {"severity": "High", "count": 267, "color": "#e67e22"},
+      {"severity": "Moderate", "count": 447, "color": "#f39c12"},
+      {"severity": "Healthy", "count": 355, "color": "#2ecc71"}
+    ]
+  }
+}

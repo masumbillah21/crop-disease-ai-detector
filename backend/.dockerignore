@@ -5,7 +5,6 @@ __pycache__/
 .venv/
 venv/
 *.h5
-*.json
 *.png
 *.jpg
 .git/

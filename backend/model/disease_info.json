@@ -1,0 +1,111 @@
+{
+  "diseases": {
+    "Apple___Apple_scab": {
+      "display_name": "Apple Scab",
+      "severity": "Moderate",
+      "description": "Fungal disease causing dark, scabby lesions on leaves and fruits.",
+      "treatment": [
+        "Apply fungicide sprays during early spring",
+        "Remove and destroy infected leaves",
+        "Prune trees for better air circulation",
+        "Use resistant apple varieties"
+      ],
+      "prevention": "Apply preventive fungicide before bud break"
+    },
+    "Apple___Black_rot": {
+      "display_name": "Apple Black Rot",
+      "severity": "High",
+      "description": "Fungal infection causing fruit rot and leaf spot.",
+      "treatment": [
+        "Remove mummified fruits and dead wood",
+        "Apply copper-based fungicides",
+        "Maintain good sanitation practices"
+      ],
+      "prevention": "Regular pruning and removal of infected material"
+    },
+    "Apple___Cedar_apple_rust": {
+      "display_name": "Cedar Apple Rust",
+      "severity": "Moderate",
+      "description": "Fungal disease with bright orange spots on leaves.",
+      "treatment": [
+        "Apply fungicides at bud break",
+        "Remove nearby juniper/cedar trees if possible",
+        "Use resistant apple varieties"
+      ],
+      "prevention": "Plant resistant varieties and apply preventive sprays"
+    },
+    "Apple___healthy": {
+      "display_name": "Healthy Apple Plant",
+      "severity": "None",
+      "description": "The plant appears healthy with no signs of disease.",
+      "treatment": ["No treatment needed"],
+      "prevention": "Continue regular monitoring and good agricultural practices"
+    },
+    "Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot": {
+      "display_name": "Corn Gray Leaf Spot",
+      "severity": "High",
+      "description": "Fungal disease causing rectangular gray lesions on leaves.",
+      "treatment": [
+        "Apply foliar fungicides",
+        "Rotate crops with non-host plants",
+        "Use resistant hybrids"
+      ],
+      "prevention": "Crop rotation and residue management"
+    },
+    "Corn_(maize)___Common_rust_": {
+      "display_name": "Corn Common Rust",
+      "severity": "Moderate",
+      "description": "Fungal disease with circular brown pustules on both leaf surfaces.",
+      "treatment": [
+        "Apply fungicides when rust is first detected",
+        "Plant resistant varieties",
+        "Monitor fields regularly"
+      ],
+      "prevention": "Use rust-resistant hybrid seeds"
+    },
+    "Tomato___Late_blight": {
+      "display_name": "Tomato Late Blight",
+      "severity": "Critical",
+      "description": "Devastating disease causing water-soaked lesions and plant death.",
+      "treatment": [
+        "Apply copper-based fungicides immediately",
+        "Remove and destroy infected plants",
+        "Avoid overhead irrigation",
+        "Apply chlorothalonil or mancozeb"
+      ],
+      "prevention": "Use certified disease-free seeds and resistant varieties"
+    },
+    "Tomato___healthy": {
+      "display_name": "Healthy Tomato Plant",
+      "severity": "None",
+      "description": "The plant appears healthy with no signs of disease.",
+      "treatment": ["No treatment needed"],
+      "prevention": "Continue regular monitoring and proper watering"
+    },
+    "Potato___Late_blight": {
+      "display_name": "Potato Late Blight",
+      "severity": "Critical",
+      "description": "The same pathogen that caused the Irish Famine. Rapid spreader.",
+      "treatment": [
+        "Apply fungicides (metalaxyl or chlorothalonil)",
+        "Destroy infected plants immediately",
+        "Do not compost infected material",
+        "Harvest early if infection is severe"
+      ],
+      "prevention": "Use certified seed potatoes and resistant varieties"
+    },
+    "Potato___healthy": {
+      "display_name": "Healthy Potato Plant",
+      "severity": "None",
+      "description": "The plant appears healthy with no signs of disease.",
+      "treatment": ["No treatment needed"],
+      "prevention": "Ensure proper spacing and drainage"
+    }
+  },
+  "severity_colors": {
+    "None": "#2ecc71",
+    "Moderate": "#f39c12",
+    "High": "#e67e22",
+    "Critical": "#e74c3c"
+  }
+}

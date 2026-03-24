@@ -1,10 +1,10 @@
-# 🌿 CropScan AI — Crop Disease Detection System
+# CropScan AI — Crop Disease Detection System
 
-An AI-powered web application that detects plant diseases from leaf photos using **MobileNetV2 transfer learning**, a **FastAPI backend**, and a **React analytics dashboard** — fully Dockerized for one-command deployment.
+AI-powered web application that detects plant diseases from leaf photos using **MobileNetV2**, **FastAPI**, and **React** — fully Dockerized.
 
 ---
 
-## 🚀 Quick Start (Docker — Recommended)
+## Quick Start
 
 ### Prerequisites
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running
@@ -22,189 +22,122 @@ Double-click setup.bat
 ### Manual
 ```bash
 cp .env.example .env
-docker compose -f docker-compose.yml up -d --build
+docker compose up -d --build
 ```
 
-| Service      | URL                         |
-|--------------|-----------------------------|
-| 🌿 App       | http://localhost            |
-| ⚡ API       | http://localhost:8000       |
-| 📖 API Docs  | http://localhost:8000/docs  |
+| Service     | URL                        |
+|-------------|----------------------------|
+| App         | http://localhost           |
+| API         | http://localhost/api       |
+| API Docs    | http://localhost/api/docs  |
 
 ---
 
-## ⚡ Common Commands
+## Commands
 
 ```bash
-make start        # Build images + start (production)
-make dev          # Start with hot reload (development)
+make start        # Build + start
+make dev          # Start (cached images)
 make down         # Stop everything
-make logs         # Stream live logs
+make logs         # Stream logs
 make restart-api  # Restart backend after model update
-make ps           # Show container status
-make prune        # Full cleanup
-make help         # See all commands
+make train        # Train ML model
+make help         # All commands
 ```
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
-crop-disease-detector/
+crop-disease-docker/
+├── docker-compose.yml         ← 2-service orchestration
+├── .env.example               ← Environment template
+├── Makefile                   ← Shortcut commands
+├── setup.sh / setup.bat       ← One-click setup
 │
-├── 🐳 Docker & Config
-│   ├── docker-compose.yml          ← Production orchestration
-│   ├── docker-compose.override.yml ← Dev overrides (hot reload)
-│   ├── .env.example                ← Environment template
-│   ├── .gitignore
-│   ├── Makefile                    ← Shortcut commands
-│   ├── setup.sh                    ← One-click setup (Linux/Mac)
-│   └── setup.bat                   ← One-click setup (Windows)
+├── backend/
+│   ├── Dockerfile             ← Multi-stage Python 3.11
+│   ├── main.py                ← FastAPI server
+│   ├── demo_data.json         ← Demo mode mock data
+│   ├── requirements.txt
+│   └── model/
+│       ├── predict.py         ← Prediction engine
+│       ├── disease_info.json  ← Disease database (10 diseases)
+│       ├── class_names.json   ← 38-class index
+│       ├── train_model.py     ← MobileNetV2 training script
+│       └── download_dataset.py
 │
-├── 🔀 nginx/
-│   └── nginx.conf                  ← Reverse proxy (port 80)
-│
-├── 🧠 model/
-│   ├── train_model.py              ← MobileNetV2 training script
-│   ├── predict.py                  ← Prediction + disease info DB
-│   ├── class_names.json            ← 38-class index (demo included)
-│   └── dataset/                    ← Place PlantVillage data here
-│
-├── ⚙️  backend/
-│   ├── Dockerfile                  ← Multi-stage Python 3.11 slim
-│   ├── main.py                     ← FastAPI server
-│   ├── predict.py                  ← Prediction engine copy
-│   └── requirements.txt
-│
-└── 🎨 frontend/
-    ├── Dockerfile                  ← Node 20 build → Nginx serve
-    ├── nginx.conf                  ← Frontend nginx config
-    ├── src/
-    │   ├── App.jsx                 ← Full React UI (Scan/History/Dashboard)
-    │   └── main.jsx
-    ├── index.html
-    ├── package.json
-    └── vite.config.js
+└── frontend/
+    ├── Dockerfile             ← Node 20 build → Nginx serve
+    ├── nginx.conf             ← Proxy: /api → backend:8000
+    ├── src/App.jsx            ← React UI (Scan/History/Dashboard)
+    └── package.json
 ```
 
 ---
 
-## 🏗️ Docker Architecture
+## Architecture
 
 ```
-Browser
-   │
-   ▼  :80
-┌─────────────────┐
-│   Nginx Proxy   │ ← routes traffic
-└────────┬────────┘
-         │                │
-    /api/*              /*
-         │                │
-    ┌────▼─────┐   ┌──────▼──────┐
-    │ FastAPI  │   │ React/Nginx │
-    │  :8000   │   │    :80      │
-    └──────────┘   └─────────────┘
+Browser → :80
+     ┌────────────────┐
+     │ Frontend Nginx  │ ← serves React + proxies /api
+     └───────┬────────┘
+             │ /api/*
+       ┌─────▼──────┐
+       │  FastAPI    │
+       │  backend    │
+       └─────────────┘
 ```
 
 ---
 
-## 🧠 Add Your Trained Model
+## Add Your Trained Model
 
-Once you've trained the model, drop the files into `model/`:
-
+Drop files into `backend/model/`:
 ```
-model/
+backend/model/
 ├── crop_disease_model.h5   ← trained model (~14MB)
 └── class_names.json        ← already included
 ```
 
-Then reload the backend:
-```bash
-make restart-api
-```
-
-The API auto-detects the model file and **switches from demo → real predictions**.
+Then: `make restart-api`
 
 ---
 
-## 🏋️ Train the Model
-
-```bash
-# 1. Download dataset automatically:
-make download-dataset
-
-# 2. Train (locally, ~30-60 min with GPU):
-make train
-
-# Outputs: model/crop_disease_model.h5
-```
-
----
-
-## 🌐 API Reference
+## API Reference
 
 | Method | Endpoint     | Description                      |
 |--------|--------------|----------------------------------|
 | GET    | `/`          | API info & status                |
 | GET    | `/health`    | Health check + mode (demo/prod)  |
 | POST   | `/predict`   | Upload image → disease diagnosis |
-| GET    | `/diseases`  | All 38 supported disease classes |
+| GET    | `/diseases`  | All supported disease classes    |
 | GET    | `/stats`     | Dashboard analytics data         |
-
-### Sample `/predict` Response
-```json
-{
-  "display_name": "Tomato Late Blight",
-  "confidence": 94.3,
-  "severity": "Critical",
-  "severity_color": "#e74c3c",
-  "description": "Devastating disease causing water-soaked lesions...",
-  "treatment": ["Apply copper-based fungicides immediately", "..."],
-  "prevention": "Use certified disease-free seeds...",
-  "top5": [{"class": "Tomato___Late_blight", "confidence": 0.943}, "..."],
-  "processing_time_ms": 143,
-  "demo_mode": false
-}
-```
 
 ---
 
-## 🌱 Supported Plants & Diseases (38 classes)
+## Supported Plants & Diseases (38 classes)
 
 | Plant       | Diseases Detected                                     |
 |-------------|-------------------------------------------------------|
-| 🍎 Apple    | Scab, Black Rot, Cedar Rust, Healthy                  |
-| 🌽 Corn     | Gray Leaf Spot, Common Rust, Northern Blight, Healthy |
-| 🍇 Grape    | Black Rot, Esca, Leaf Blight, Healthy                 |
-| 🥔 Potato   | Early Blight, Late Blight, Healthy                    |
-| 🍅 Tomato   | Late/Early Blight, Leaf Mold, Mosaic Virus + 4 more  |
+| Apple       | Scab, Black Rot, Cedar Rust, Healthy                  |
+| Corn        | Gray Leaf Spot, Common Rust, Northern Blight, Healthy |
+| Grape       | Black Rot, Esca, Leaf Blight, Healthy                 |
+| Potato      | Early Blight, Late Blight, Healthy                    |
+| Tomato      | Late/Early Blight, Leaf Mold, Mosaic Virus + 4 more  |
 | + 9 more    | Peach, Pepper, Strawberry, Squash, Soybean...         |
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
-| Layer     | Technology                          |
-|-----------|-------------------------------------|
-| ML Model  | TensorFlow 2.15 + MobileNetV2       |
-| Backend   | FastAPI + Uvicorn (Python 3.11)     |
-| Frontend  | React 18 + Vite + Recharts          |
-| Proxy     | Nginx 1.25                          |
-| Container | Docker + Docker Compose             |
+| Layer     | Technology                      |
+|-----------|---------------------------------|
+| ML Model  | TensorFlow 2.15 + MobileNetV2  |
+| Backend   | FastAPI + Uvicorn (Python 3.11) |
+| Frontend  | React 18 + Vite + Recharts     |
+| Proxy     | Nginx (inside frontend container) |
+| Container | Docker + Docker Compose         |
 
----
-
-## 📊 Expected Model Performance
-
-| Metric              | Value      |
-|---------------------|------------|
-| Validation Accuracy | ~95–97%    |
-| Inference Time      | ~100–200ms |
-| Model Size          | ~14MB      |
-| Classes Supported   | 38         |
-
----
-
-Made with 🌿 for AI Capstone Project

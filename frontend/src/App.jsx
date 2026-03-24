@@ -4,11 +4,8 @@ import {
   PieChart, Pie, Cell, LineChart, Line, CartesianGrid, Legend
 } from "recharts";
 
-// In Docker: requests go through nginx proxy at /api
-// In local dev: direct to localhost:8000
-const API_BASE = import.meta.env.VITE_API_URL || (
-  window.location.port === "3000" ? "http://localhost:8000" : "/api"
-);
+// API base: /api is proxied to backend by nginx (Docker) or Vite (dev)
+const API_BASE = "/api";
 
 // ─── Severity Badge ───────────────────────────────────────────────────────────
 const SeverityBadge = ({ severity }) => {
