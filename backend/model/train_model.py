@@ -20,7 +20,7 @@ import json
 IMG_SIZE = (224, 224)
 BATCH_SIZE = 32
 EPOCHS = 20
-DATASET_DIR = "./dataset/plantvillage"  # Update this path
+DATASET_DIR = "./dataset/plantvillage/plantvillage dataset/color"
 MODEL_SAVE_PATH = "./crop_disease_model.h5"
 CLASS_NAMES_PATH = "./class_names.json"
 
