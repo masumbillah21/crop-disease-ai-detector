@@ -204,11 +204,19 @@ const Dashboard = ({ stats }) => {
     </div>
   );
 
+  if (stats.total_scans === 0) return (
+    <div style={{ textAlign: "center", padding: 80, color: "#64748b" }}>
+      <p style={{ fontSize: 48, marginBottom: 16 }}>📊</p>
+      <p style={{ fontSize: 16 }}>No scans yet. Go to the Scan tab to analyze a crop!</p>
+      <p style={{ fontSize: 13, marginTop: 8 }}>Dashboard will show real data from your scans.</p>
+    </div>
+  );
+
   const cards = [
     { label: "Total Scans", value: stats.total_scans.toLocaleString(), icon: "🔬", color: "#60a5fa" },
     { label: "Diseases Found", value: stats.diseases_detected.toLocaleString(), icon: "🦠", color: "#f87171" },
     { label: "Healthy Plants", value: stats.healthy_plants.toLocaleString(), icon: "🌱", color: "#4ade80" },
-    { label: "Model Accuracy", value: `${stats.accuracy}%`, icon: "🎯", color: "#a78bfa" },
+    { label: "Avg Confidence", value: `${stats.accuracy}%`, icon: "🎯", color: "#a78bfa" },
   ];
 
   return (
@@ -326,6 +334,10 @@ export default function App() {
     } catch { setStats(null); }
   };
 
+  // Reload stats every time dashboard tab is opened
+  const prevTab = useRef(tab);
+  if (tab === "dashboard" && prevTab.current !== "dashboard") loadStats();
+  prevTab.current = tab;
   if (tab === "dashboard" && !stats) loadStats();
 
   const tabs = [
