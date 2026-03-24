@@ -36,13 +36,16 @@ docker compose up -d --build
 ## Commands
 
 ```bash
-make start        # Build + start
-make dev          # Start (cached images)
-make down         # Stop everything
-make logs         # Stream logs
-make restart-api  # Restart backend after model update
-make train        # Train ML model
-make help         # All commands
+make start            # Build + start
+make dev              # Start (cached images)
+make down             # Stop everything
+make logs             # Stream logs
+make restart-api      # Restart backend after model update
+make setup-model      # Download dataset + train model (one command)
+make download-dataset # Download PlantVillage dataset only
+make train            # Train model only
+make clean            # Full cleanup
+make help             # All commands
 ```
 
 ---

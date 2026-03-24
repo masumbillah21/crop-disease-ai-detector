@@ -1,6 +1,6 @@
 # CropScan AI — Makefile
 
-.PHONY: start dev down build logs restart train download-dataset help
+.PHONY: start dev down build logs restart setup-model download-dataset train help
 
 start: build
 	docker compose up -d
@@ -25,11 +25,14 @@ restart-api:
 logs:
 	docker compose logs -f
 
-train:
-	cd backend/model && pip install tensorflow pillow numpy matplotlib && python train_model.py
+setup-model: download-dataset train
+	@echo "\nModel ready! Run 'make restart-api' to use it.\n"
 
 download-dataset:
 	pip install kagglehub && python backend/model/download_dataset.py
+
+train:
+	cd backend/model && pip install tensorflow pillow numpy matplotlib && python train_model.py
 
 clean:
 	docker compose down -v --rmi local
@@ -43,7 +46,8 @@ help:
 	@echo "  make restart         Restart all services"
 	@echo "  make restart-api     Restart backend only"
 	@echo "  make logs            Stream logs"
-	@echo "  make train           Train ML model"
-	@echo "  make download-dataset  Download dataset"
+	@echo "  make setup-model     Download dataset + train model"
+	@echo "  make download-dataset  Download dataset only"
+	@echo "  make train           Train model only"
 	@echo "  make clean           Full cleanup"
 	@echo ""
