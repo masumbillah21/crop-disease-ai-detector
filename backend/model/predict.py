@@ -21,7 +21,9 @@ SEVERITY_COLOR = _disease_data["severity_colors"]
 class CropDiseasePredictor:
     def __init__(self, model_path: str, class_names_path: str):
         print("🔄 Loading model...")
-        self.model = tf.keras.models.load_model(model_path)
+        # Use tf.saved_model.load for cross-version compatibility
+        self.model = tf.saved_model.load(model_path)
+        self._serve = self.model.signatures["serving_default"]
         with open(class_names_path) as f:
             self.class_names = json.load(f)
         print(f"✅ Model loaded | {len(self.class_names)} classes")
@@ -29,19 +31,22 @@ class CropDiseasePredictor:
     def predict_from_image(self, pil_image):
         """Predict disease from a PIL Image (used by the API)."""
         img = pil_image.convert("RGB").resize((224, 224))
-        img_array = np.expand_dims(np.array(img) / 255.0, axis=0)
+        img_array = np.expand_dims(np.array(img, dtype=np.float32) / 255.0, axis=0)
         return self._run_prediction(img_array)
 
     def predict(self, img_path: str):
         """Predict disease from a file path (used for CLI testing)."""
-        from tensorflow.keras.preprocessing import image
-        img = image.load_img(img_path, target_size=(224, 224))
-        img_array = np.expand_dims(image.img_to_array(img) / 255.0, axis=0)
+        from PIL import Image
+        img = Image.open(img_path).convert("RGB").resize((224, 224))
+        img_array = np.expand_dims(np.array(img, dtype=np.float32) / 255.0, axis=0)
         return self._run_prediction(img_array)
 
     def _run_prediction(self, img_array):
         """Core prediction logic shared by both entry points."""
-        predictions = self.model.predict(img_array, verbose=0)
+        output = self._serve(tf.constant(img_array))
+        # Get the first (and only) output tensor from the signature
+        output_key = list(output.keys())[0]
+        predictions = output[output_key].numpy()
         top5_indices = np.argsort(predictions[0])[-5:][::-1]
         top5 = [
             {"class": self.class_names[str(i)], "confidence": float(predictions[0][i])}
@@ -72,6 +77,6 @@ class CropDiseasePredictor:
 
 
 if __name__ == "__main__":
-    predictor = CropDiseasePredictor("./crop_disease_model.h5", "./class_names.json")
+    predictor = CropDiseasePredictor("./crop_disease_model", "./class_names.json")
     result = predictor.predict("test_leaf.jpg")
     print(f"\n🌿 {result['display_name']} | {result['confidence']}% | {result['severity']}")

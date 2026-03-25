@@ -8,7 +8,7 @@ services:
       - ./backend/model:/app/model:ro
       - model-cache:/root/.keras
     environment:
-      - MODEL_PATH=/app/model/crop_disease_model.h5
+      - MODEL_PATH=/app/model/crop_disease_model
       - CLASS_NAMES_PATH=/app/model/class_names.json
       - PYTHONUNBUFFERED=1
     healthcheck:

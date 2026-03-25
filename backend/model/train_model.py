@@ -22,6 +22,7 @@ BATCH_SIZE = 32
 EPOCHS = 20
 DATASET_DIR = "./dataset/plantvillage/plantvillage dataset/color"
 MODEL_SAVE_PATH = "./crop_disease_model.h5"
+SAVEDMODEL_PATH = "./crop_disease_model"
 CLASS_NAMES_PATH = "./class_names.json"
 
 # ─────────────────────────────────────────
@@ -185,5 +186,9 @@ def plot_history(h1, h2):
     print("✅ Training history saved to training_history.png")
 
 plot_history(history1, history2)
+
+# Export as SavedModel for Docker (cross-version compatible)
+model.export(SAVEDMODEL_PATH)
 print(f"\n✅ Model saved to: {MODEL_SAVE_PATH}")
+print(f"✅ SavedModel exported to: {SAVEDMODEL_PATH}")
 print(f"✅ Class names saved to: {CLASS_NAMES_PATH}")
