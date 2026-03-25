@@ -2,6 +2,8 @@
 
 **CropScan AI** is a state-of-the-art agricultural diagnostic tool that leverages deep learning to identify 38 types of plant diseases from simple leaf photographs. Designed for accessibility and speed, it provides farmers and gardeners with instant treatment advice and a comprehensive analytics dashboard.
 
+### 🌐 Live Preview: [https://crop-disease-ai-6w67.onrender.com/](https://crop-disease-ai-6w67.onrender.com/)
+
 ---
 
 ## Usage & Screenshots
@@ -26,9 +28,13 @@
 | **Linux / macOS** | `chmod +x setup.sh && ./setup.sh` |
 | **Windows** | Double-click `setup.bat` |
 
-### Service URLs
-- **Main Application**: [http://localhost](http://localhost)
-- **API Documentation**: [http://localhost/api/docs](http://localhost/api/docs)
+### Service URLs (Local)
+- **Main Application**: [http://localhost:8000](http://localhost:8000)
+- **API Documentation**: [http://localhost:8000/api/docs](http://localhost:8000/api/docs)
+
+### Service URLs (Production)
+- **Live Site**: [https://crop-disease-ai-6w67.onrender.com/](https://crop-disease-ai-6w67.onrender.com/)
+- **Live API Docs**: [https://crop-disease-ai-6w67.onrender.com/api/docs](https://crop-disease-ai-6w67.onrender.com/api/docs)
 
 ---
 
@@ -36,11 +42,10 @@
 
 ```mermaid
 graph LR
-    A[Browser] -->|HTTP| B(Nginx Proxy)
-    B -->|Statics| C[React Frontend]
-    B -->|/api| D[FastAPI Backend]
-    D -->|Inference| E[TensorFlow Model]
-    E -->|Lookup| F[Disease Data JSON]
+    A[Browser] -->|HTTP| B(FastAPI Server)
+    B -->|Serves| C[React Static Files]
+    B -->|Inference| D[TensorFlow Model]
+    D -->|Lookup| E[Disease Data JSON]
 ```
 
 ### Folder Structure
@@ -65,10 +70,10 @@ Detailed documentation of our AI approach can be found in [MODEL_DOCUMENTATION.m
 | Layer | Technology |
 | :--- | :--- |
 | **AI/ML** | TensorFlow 2.15, MobileNetV2 |
-| **Service** | FastAPI, Uvicorn, Python 3.11 |
+| **Backend & Hosting** | FastAPI, Uvicorn, Python 3.11 |
 | **UI** | React 18, Vite, Recharts |
-| **Reverse Proxy** | Nginx |
-| **DevOps** | Docker, Docker Compose |
+| **Production Architecture** | Single Container (Multi-stage Build) |
+| **DevOps** | Docker, Docker Buildx |
 
 ---
 

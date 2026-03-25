@@ -5,7 +5,8 @@ Run: uvicorn main:app --reload --port 8000
 
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
 from PIL import Image
 from collections import Counter
 from datetime import datetime
@@ -30,7 +31,8 @@ app = FastAPI(
     title="Crop Disease Detector API",
     description="AI-powered crop disease detection using MobileNetV2",
     version="1.0.0",
-    root_path="/api"
+    docs_url="/api/docs",
+    redoc_url="/api/redoc"
 )
 
 app.add_middleware(
@@ -42,9 +44,10 @@ app.add_middleware(
 )
 
 # ─── Load Model ───────────────────────────────────────────────
-MODEL_PATH = os.getenv("MODEL_PATH", "../crop_disease_model.h5")
-CLASS_NAMES_PATH = os.getenv("CLASS_NAMES_PATH", "../class_names.json")
+MODEL_PATH = os.getenv("MODEL_PATH", "/app/model/crop_disease_model")
+CLASS_NAMES_PATH = os.getenv("CLASS_NAMES_PATH", "/app/model/class_names.json")
 predictor = None
+model_error = None
 demo_counter = 0
 
 # ─── Scan Tracking (in-memory) ────────────────────────────────
@@ -52,14 +55,25 @@ scan_history = []  # list of {"name", "severity", "confidence", "timestamp"}
 
 @app.on_event("startup")
 async def load_model():
-    global predictor
+    global predictor, model_error
     try:
+        # Try SavedModel directory first
         predictor = CropDiseasePredictor(MODEL_PATH, CLASS_NAMES_PATH)
-    except Exception as e:
-        print(f"Model not found ({e}) — running in DEMO mode")
+    except Exception as e1:
+        model_error = f"SavedModel load failed: {str(e1)}"
+        try:
+            # Fallback to .h5 if it exists
+            h5_path = f"{MODEL_PATH}.h5"
+            if os.path.exists(h5_path):
+                predictor = CropDiseasePredictor(h5_path, CLASS_NAMES_PATH)
+                model_error = None # Success
+        except Exception as e2:
+            model_error = f"Both load methods failed. 1: {str(e1)} | 2: {str(e2)}"
+            print(f"Model error: {model_error}")
 
 # ─── Endpoints ────────────────────────────────────────────────
-@app.get("/")
+@app.get("/api", include_in_schema=False)
+@app.get("/api/", include_in_schema=False)
 async def root():
     return {
         "message": "Crop Disease Detector API",
@@ -68,12 +82,16 @@ async def root():
         "endpoints": ["POST /predict", "GET /health", "GET /diseases", "GET /stats"]
     }
 
-@app.get("/health")
+@app.get("/api/health")
 async def health():
-    return {"status": "healthy", "model_loaded": predictor is not None,
-            "mode": "production" if predictor else "demo"}
+    return {
+        "status": "healthy",
+        "model_loaded": predictor is not None,
+        "mode": "production" if predictor else "demo",
+        "error": model_error
+    }
 
-@app.post("/predict")
+@app.post("/api/predict")
 async def predict_disease(file: UploadFile = File(...)):
     global demo_counter
 
@@ -111,7 +129,7 @@ async def predict_disease(file: UploadFile = File(...)):
     except Exception as e:
         raise HTTPException(500, f"Prediction failed: {str(e)}")
 
-@app.get("/diseases")
+@app.get("/api/diseases")
 async def get_diseases():
     return {
         "count": len(DISEASE_INFO),
@@ -122,7 +140,8 @@ async def get_diseases():
         ]
     }
 
-@app.get("/stats")
+
+@app.get("/api/stats")
 async def get_stats():
     """Real stats computed from actual scans."""
     total = len(scan_history)
@@ -181,6 +200,24 @@ async def get_stats():
         "severity_breakdown": severity_breakdown
     }
 
+# ─── Serve Frontend (Must be last) ───────────────────────────
+static_path = Path(__file__).parent / "static"
+if static_path.exists():
+    # Fallback for SPA routing: serve index.html for unknown routes
+    @app.exception_handler(404)
+    async def custom_404_handler(request, exc):
+        # If it's an API route that truly doesn't exist, return 404 JSON
+        if request.url.path.startswith("/api"):
+             return JSONResponse(
+                 status_code=404,
+                 content={"detail": "API route not found. See /api/docs for help."}
+             )
+        # Otherwise, it's a frontend route (SPA)
+        return FileResponse(static_path / "index.html")
+
+    app.mount("/", StaticFiles(directory=str(static_path), html=True), name="static")
+
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000, reload=True)
+    port = int(os.getenv("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
