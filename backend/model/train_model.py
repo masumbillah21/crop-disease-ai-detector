@@ -69,9 +69,9 @@ class_names = {v: k for k, v in train_generator.class_indices.items()}
 with open(CLASS_NAMES_PATH, 'w') as f:
     json.dump(class_names, f, indent=2)
 
-print(f"✅ Found {len(class_names)} classes")
-print(f"✅ Training samples: {train_generator.samples}")
-print(f"✅ Validation samples: {val_generator.samples}")
+print(f"Found {len(class_names)} classes")
+print(f"Training samples: {train_generator.samples}")
+print(f"Validation samples: {val_generator.samples}")
 
 # ─────────────────────────────────────────
 # BUILD MODEL (Transfer Learning)
@@ -130,7 +130,7 @@ callbacks = [
 # ─────────────────────────────────────────
 # PHASE 1: Train top layers only
 # ─────────────────────────────────────────
-print("\n📌 Phase 1: Training top layers...")
+print("\nPhase 1: Training top layers...")
 history1 = model.fit(
     train_generator,
     validation_data=val_generator,
@@ -141,7 +141,7 @@ history1 = model.fit(
 # ─────────────────────────────────────────
 # PHASE 2: Fine-tune last 30 layers
 # ─────────────────────────────────────────
-print("\n📌 Phase 2: Fine-tuning last 30 layers...")
+print("\nPhase 2: Fine-tuning last 30 layers...")
 base_model.trainable = True
 for layer in base_model.layers[:-30]:
     layer.trainable = False
@@ -183,12 +183,12 @@ def plot_history(h1, h2):
 
     plt.tight_layout()
     plt.savefig('./training_history.png', dpi=150)
-    print("✅ Training history saved to training_history.png")
+    print("Training history saved to training_history.png")
 
 plot_history(history1, history2)
 
 # Export as SavedModel for Docker (cross-version compatible)
 model.export(SAVEDMODEL_PATH)
-print(f"\n✅ Model saved to: {MODEL_SAVE_PATH}")
-print(f"✅ SavedModel exported to: {SAVEDMODEL_PATH}")
-print(f"✅ Class names saved to: {CLASS_NAMES_PATH}")
+print(f"\nModel saved to: {MODEL_SAVE_PATH}")
+print(f"SavedModel exported to: {SAVEDMODEL_PATH}")
+print(f"Class names saved to: {CLASS_NAMES_PATH}")
