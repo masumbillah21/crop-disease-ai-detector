@@ -1,146 +1,84 @@
-# CropScan AI — Crop Disease Detection System
+# CropScan AI — Plant Disease Detection System
 
-AI-powered web application that detects plant diseases from leaf photos using **MobileNetV2**, **FastAPI**, and **React** — fully Dockerized.
+**CropScan AI** is a state-of-the-art agricultural diagnostic tool that leverages deep learning to identify 38 types of plant diseases from simple leaf photographs. Designed for accessibility and speed, it provides farmers and gardeners with instant treatment advice and a comprehensive analytics dashboard.
+
+---
+
+## Usage & Screenshots
+
+*(Screenshots will be placed here after deployment/local capture)*
+
+1. **Upload**: Drag and drop a photo or browse your files.
+2. **Analyze**: The AI model (MobileNetV2) processes the image in milliseconds.
+3. **Result**: View detailed diagnosis, confidence score, and treatment steps.
+4. **Dashboard**: Track your history and view global disease trends in real-time.
 
 ---
 
 ## Quick Start
 
 ### Prerequisites
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running.
 
-### Linux / macOS
-```bash
-chmod +x setup.sh && ./setup.sh
-```
+### One-Command Setup
+| OS | Command |
+| :--- | :--- |
+| **Linux / macOS** | `chmod +x setup.sh && ./setup.sh` |
+| **Windows** | Double-click `setup.bat` |
 
-### Windows
-```
-Double-click setup.bat
-```
-
-### Manual
-```bash
-cp .env.example .env
-docker compose up -d --build
-```
-
-| Service     | URL                        |
-|-------------|----------------------------|
-| App         | http://localhost           |
-| API         | http://localhost/api       |
-| API Docs    | http://localhost/api/docs  |
+### Service URLs
+- **Main Application**: [http://localhost](http://localhost)
+- **API Documentation**: [http://localhost/api/docs](http://localhost/api/docs)
 
 ---
 
-## Commands
+## Project Architecture
 
-```bash
-make start            # Build + start
-make dev              # Start (cached images)
-make down             # Stop everything
-make logs             # Stream logs
-make restart-api      # Restart backend after model update
-make setup-model      # Download dataset + train model (one command)
-make download-dataset # Download PlantVillage dataset only
-make train            # Train model only
-make clean            # Full cleanup
-make help             # All commands
+```mermaid
+graph LR
+    A[Browser] -->|HTTP| B(Nginx Proxy)
+    B -->|Statics| C[React Frontend]
+    B -->|/api| D[FastAPI Backend]
+    D -->|Inference| E[TensorFlow Model]
+    E -->|Lookup| F[Disease Data JSON]
 ```
+
+### Folder Structure
+- `frontend/`: React 18 application with Recharts analytics.
+- `backend/`: FastAPI server with async endpoints.
+- `backend/model/`: MobileNetV2 model files, training scripts, and disease database.
+- `docker-compose.yml`: Orchestration for the 2-service architecture.
 
 ---
 
-## Project Structure
+## AI Methodology
+Detailed documentation of our AI approach can be found in [MODEL_DOCUMENTATION.md](./MODEL_DOCUMENTATION.md).
 
-```
-crop-disease-docker/
-├── docker-compose.yml         ← 2-service orchestration
-├── .env.example               ← Environment template
-├── Makefile                   ← Shortcut commands
-├── setup.sh / setup.bat       ← One-click setup
-│
-├── backend/
-│   ├── Dockerfile             ← Multi-stage Python 3.11
-│   ├── main.py                ← FastAPI server
-│   ├── demo_data.json         ← Demo mode mock data
-│   ├── requirements.txt
-│   └── model/
-│       ├── predict.py         ← Prediction engine
-│       ├── disease_info.json  ← Disease database (10 diseases)
-│       ├── class_names.json   ← 38-class index
-│       ├── train_model.py     ← MobileNetV2 training script
-│       └── download_dataset.py
-│
-└── frontend/
-    ├── Dockerfile             ← Node 20 build → Nginx serve
-    ├── nginx.conf             ← Proxy: /api → backend:8000
-    ├── src/App.jsx            ← React UI (Scan/History/Dashboard)
-    └── package.json
-```
-
----
-
-## Architecture
-
-```
-Browser → :80
-     ┌────────────────┐
-     │ Frontend Nginx  │ ← serves React + proxies /api
-     └───────┬────────┘
-             │ /api/*
-       ┌─────▼──────┐
-       │  FastAPI    │
-       │  backend    │
-       └─────────────┘
-```
-
----
-
-## Add Your Trained Model
-
-Drop files into `backend/model/`:
-```
-backend/model/
-├── crop_disease_model.h5   ← trained model (~14MB)
-└── class_names.json        ← already included
-```
-
-Then: `make restart-api`
-
----
-
-## API Reference
-
-| Method | Endpoint     | Description                      |
-|--------|--------------|----------------------------------|
-| GET    | `/`          | API info & status                |
-| GET    | `/health`    | Health check + mode (demo/prod)  |
-| POST   | `/predict`   | Upload image → disease diagnosis |
-| GET    | `/diseases`  | All supported disease classes    |
-| GET    | `/stats`     | Dashboard analytics data         |
-
----
-
-## Supported Plants & Diseases (38 classes)
-
-| Plant       | Diseases Detected                                     |
-|-------------|-------------------------------------------------------|
-| Apple       | Scab, Black Rot, Cedar Rust, Healthy                  |
-| Corn        | Gray Leaf Spot, Common Rust, Northern Blight, Healthy |
-| Grape       | Black Rot, Esca, Leaf Blight, Healthy                 |
-| Potato      | Early Blight, Late Blight, Healthy                    |
-| Tomato      | Late/Early Blight, Leaf Mold, Mosaic Virus + 4 more  |
-| + 9 more    | Peach, Pepper, Strawberry, Squash, Soybean...         |
+- **Architecture**: MobileNetV2 (Pre-trained on ImageNet).
+- **Dataset**: PlantVillage (54,303 images, 38 classes).
+- **Output**: Display Name, Severity Level, Confidence, Treatment, and Prevention.
 
 ---
 
 ## Tech Stack
 
-| Layer     | Technology                      |
-|-----------|---------------------------------|
-| ML Model  | TensorFlow 2.15 + MobileNetV2  |
-| Backend   | FastAPI + Uvicorn (Python 3.11) |
-| Frontend  | React 18 + Vite + Recharts     |
-| Proxy     | Nginx (inside frontend container) |
-| Container | Docker + Docker Compose         |
+| Layer | Technology |
+| :--- | :--- |
+| **AI/ML** | TensorFlow 2.15, MobileNetV2 |
+| **Service** | FastAPI, Uvicorn, Python 3.11 |
+| **UI** | React 18, Vite, Recharts |
+| **Reverse Proxy** | Nginx |
+| **DevOps** | Docker, Docker Compose |
+
+---
+
+## Deployment
+
+This application is designed to be cloud-agnostic. For production deployment:
+1. Ensure `.env` is properly configured.
+2. Build optimized images: `docker compose -f docker-compose.yml build`.
+3. Deploy to any container orchestration service (AWS ECS, Google Cloud Run, DigitalOcean App Platform, or Render).
+
+---
+*Developed for the AI Crop Disease Challenge.*
 
