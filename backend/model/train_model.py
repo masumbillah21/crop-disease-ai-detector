@@ -13,6 +13,12 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping, ReduceLROnPlateau
 import matplotlib.pyplot as plt
 import json
+import sys
+from pathlib import Path
+
+# Add backend dir to sys.path for standalone execution
+sys.path.append(str(Path(__file__).parent.parent))
+import config
 
 # ─────────────────────────────────────────
 # CONFIG
@@ -20,10 +26,10 @@ import json
 IMG_SIZE = (224, 224)
 BATCH_SIZE = 32
 EPOCHS = 20
-DATASET_DIR = "./dataset/plantvillage/plantvillage dataset/color"
-MODEL_SAVE_PATH = "./crop_disease_model.h5"
-SAVEDMODEL_PATH = "./crop_disease_model"
-CLASS_NAMES_PATH = "./class_names.json"
+DATASET_DIR = config.DATASET_DIR
+MODEL_SAVE_PATH = config.MODEL_SAVE_PATH
+SAVEDMODEL_PATH = config.MODEL_PATH
+CLASS_NAMES_PATH = config.CLASS_NAMES_PATH
 
 # ─────────────────────────────────────────
 # DATA GENERATORS

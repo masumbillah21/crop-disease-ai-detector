@@ -16,6 +16,7 @@ import sys
 import json
 import time
 from pathlib import Path
+import config
 
 # Import predictor from model directory
 sys.path.insert(0, str(Path(__file__).parent / "model"))
@@ -32,7 +33,8 @@ app = FastAPI(
     description="AI-powered crop disease detection using MobileNetV2",
     version="1.0.0",
     docs_url="/api/docs",
-    redoc_url="/api/redoc"
+    redoc_url="/api/redoc",
+    openapi_url="/api/openapi.json"
 )
 
 app.add_middleware(
@@ -44,8 +46,8 @@ app.add_middleware(
 )
 
 # ─── Load Model ───────────────────────────────────────────────
-MODEL_PATH = os.getenv("MODEL_PATH", "/app/model/crop_disease_model")
-CLASS_NAMES_PATH = os.getenv("CLASS_NAMES_PATH", "/app/model/class_names.json")
+MODEL_PATH = config.MODEL_PATH
+CLASS_NAMES_PATH = config.CLASS_NAMES_PATH
 predictor = None
 model_error = None
 demo_counter = 0
@@ -219,5 +221,4 @@ if static_path.exists():
 
 if __name__ == "__main__":
     import uvicorn
-    port = int(os.getenv("PORT", 8000))
-    uvicorn.run(app, host="0.0.0.0", port=port)
+    uvicorn.run(app, host="0.0.0.0", port=config.PORT)

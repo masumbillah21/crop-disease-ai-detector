@@ -6,7 +6,13 @@ Single source of truth for model loading, preprocessing, and inference.
 import numpy as np
 import tensorflow as tf
 import json
+import os
+import sys
 from pathlib import Path
+
+# Add backend dir to sys.path for standalone execution
+sys.path.append(str(Path(__file__).parent.parent))
+import config
 
 
 # Load disease info from JSON
@@ -77,6 +83,6 @@ class CropDiseasePredictor:
 
 
 if __name__ == "__main__":
-    predictor = CropDiseasePredictor("./crop_disease_model", "./class_names.json")
+    predictor = CropDiseasePredictor(config.MODEL_PATH, config.CLASS_NAMES_PATH)
     result = predictor.predict("test_leaf.jpg")
     print(f"\n🌿 {result['display_name']} | {result['confidence']}% | {result['severity']}")
