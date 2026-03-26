@@ -26,7 +26,7 @@ CropScan AI utilizes a modern, robust tech stack designed for scalability and ea
 | Layer | Technology |
 | :--- | :--- |
 | **Frontend** | React 18, Vite, Recharts (for analytics), Tailwind CSS principles |
-| **Backend** | FastAPI (Python 3.11), Uvicorn |
+| **Backend** | FastAPI (Python 3.11), Uvicorn, Python-Dotenv |
 | **Machine Learning** | TensorFlow 2.15, Pillow (image processing) |
 | **DevOps** | Docker, Docker Compose, Nginx (reverse proxy) |
 | **Deployment** | Scalable to any Cloud Provider (AWS, GCP, Render, etc.) |

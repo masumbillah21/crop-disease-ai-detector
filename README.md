@@ -68,6 +68,7 @@ graph TD
 crop-disease-docker/
 ├── backend/                  # FastAPI server
 │   ├── main.py               # API endpoints & static file serving
+│   ├── config.py             # Centralized environment configuration
 │   ├── demo_data.json        # Fallback demo predictions
 │   ├── requirements.txt      # Python dependencies
 │   └── model/                # ML pipeline
@@ -125,7 +126,7 @@ Detailed project records are maintained in the `docs/` directory:
 ## Deployment
 
 This application is designed to be cloud-agnostic. For production deployment:
-1. Ensure `.env` is properly configured.
+1. Ensure `.env` is properly configured (defaults are loaded automatically via `backend/config.py` using `python-dotenv`).
 2. Build optimized images: `docker compose -f docker-compose.yml build`.
 3. Deploy to any container orchestration service (AWS ECS, Google Cloud Run, DigitalOcean App Platform, or Render).
 

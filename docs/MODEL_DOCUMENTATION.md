@@ -48,5 +48,5 @@ We employed a two-phase transfer learning strategy to optimize performance while
 The dual-phase training approach ensures high accuracy across various lighting conditions and orientations found in real-world leaf photography. Training history (accuracy/loss plots) is generated to verify convergence and prevent overfitting.
 
 ---
-**Model Path**: `backend/model/crop_disease_model.h5`
-**Class Names**: `backend/model/class_names.json`
+**Model Path**: Configurable via `.env` (default: `/app/model/crop_disease_model`)
+**Class Names**: Configurable via `.env` (default: `/app/model/class_names.json`)

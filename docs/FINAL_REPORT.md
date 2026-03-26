@@ -15,7 +15,7 @@ Crop diseases result in billions of dollars in annual agricultural losses. The s
 We chose to containerize the frontend (React/Nginx) and backend (FastAPI) separately to ensure environment consistency and scalability. Docker Compose orchestrates these services, allowing for a single-command setup.
 
 ### Backend: FastAPI
-FastAPI was selected for its asynchronous capabilities and automatic OpenAPI documentation. It serves as a high-speed bridge between the React frontend and the TensorFlow inference engine.
+FastAPI was selected for its asynchronous capabilities and automatic OpenAPI documentation. It serves as a high-speed bridge between the React frontend and the TensorFlow inference engine. Environment variables and file paths are dynamically loaded through a centralized `config.py` using `python-dotenv`, enabling seamless transitions between local and cloud deployments.
 
 ### Frontend: React & Recharts
 The UI prioritizes a "premium" user experience with a dark-theme dashboard. Recharts was used to provide real-time analytics, showing severity breakdowns and scan trends, which are crucial for long-term monitoring.
