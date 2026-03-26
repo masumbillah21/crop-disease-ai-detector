@@ -57,7 +57,7 @@ graph LR
 ---
 
 ## AI Methodology
-Detailed documentation of our AI approach can be found in [MODEL_DOCUMENTATION.md](./MODEL_DOCUMENTATION.md).
+Detailed documentation of our AI approach can be found in [MODEL_DOCUMENTATION.md](./docs/MODEL_DOCUMENTATION.md).
 
 - **Architecture**: MobileNetV2 (Pre-trained on ImageNet).
 - **Dataset**: PlantVillage (54,303 images, 38 classes).
@@ -74,6 +74,16 @@ Detailed documentation of our AI approach can be found in [MODEL_DOCUMENTATION.m
 | **UI** | React 18, Vite, Recharts |
 | **Production Architecture** | Single Container (Multi-stage Build) |
 | **DevOps** | Docker, Docker Buildx |
+| **Documentation** | [Project Proposal](./docs/PROJECT_PROPOSAL.md), [Model Methodology](./docs/MODEL_DOCUMENTATION.md), [Final Report](./docs/FINAL_REPORT.md) |
+
+---
+
+## Project Documentation
+
+Detailed project records are maintained in the `docs/` directory:
+- [**Project Proposal**](./docs/PROJECT_PROPOSAL.md): Initial vision, problem statement, and technical approach.
+- [**AI Model Methodology**](./docs/MODEL_DOCUMENTATION.md): Deep dive into MobileNetV2 architecture, training, and performance.
+- [**Final Report**](./docs/FINAL_REPORT.md): Comprehensive summary of outcomes, challenges, and future work.
 
 ---
 
