@@ -11,8 +11,6 @@ build/
 venv/
 .venv/
 env/
-.env
-
 # ML model files (too large for git — use git-lfs or cloud storage)
 *.h5
 *.pb
@@ -22,8 +20,11 @@ env/
 *.joblib
 training_history.png
 
+# TensorFlow SavedModel format directories
+backend/model/crop_disease_model/
+
 # Dataset (too large for git)
-model/dataset/plantvillage/
+backend/model/dataset/
 
 # Node / Frontend
 node_modules/
