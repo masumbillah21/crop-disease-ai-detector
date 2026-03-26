@@ -39,13 +39,27 @@
 
 ```mermaid
 graph TD
-    User([User]) -->|Upload Image| React[React Frontend]
-    React -->|API Call /api/predict| FastAPI[FastAPI Backend]
-    FastAPI -->|Preprocess Image| Model[MobileNetV2 Model]
-    Model -->|Class Prediction| DiseaseDB[Disease Info JSON]
-    DiseaseDB -->|Diagnosis + Treatment| FastAPI
-    FastAPI -->|JSON Response| React
-    React -->|Display Results| User
+    subgraph "Frontend — React + Vite"
+        Upload[Image Upload] -->|User drops/selects photo| ScanView[Scan View]
+        ScanView -->|POST /api/predict| API
+        ScanView -->|Displays| ResultCard[Result Card — Diagnosis, Confidence, Treatment]
+        HistoryView[History View] -->|In-browser state| ScanLog[Recent Scan Log]
+        DashboardView[Dashboard View] -->|GET /api/stats| API
+        DashboardView -->|Renders| Charts[Recharts — Bar, Pie, Rankings]
+    end
+
+    subgraph "Backend — FastAPI"
+        API[REST API] -->|Image Preprocessing| Predictor[CropDiseasePredictor]
+        API -->|Real-time Analytics| Stats[Stats Engine]
+    end
+
+    subgraph "ML Engine"
+        Predictor -->|224x224 Tensor| Model[MobileNetV2]
+        Model -->|Top-5 Predictions| DiseaseDB[Disease Info JSON — 38 Classes]
+    end
+
+    User([User]) -->|Browse & Upload| Upload
+    ResultCard -->|View Results| User
 ```
 
 ### Folder Structure
