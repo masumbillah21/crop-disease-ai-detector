@@ -29,8 +29,8 @@
 | **Windows** | Double-click `setup.bat` |
 
 ### Service URLs
-- **Application**: [http://localhost:8000](http://localhost:8000)
-- **API Documentation**: [http://localhost:8000/api/docs](http://localhost:8000/api/docs)
+- **Application**: [http://localhost](http://localhost)
+- **API Documentation**: [http://localhost/api/docs](http://localhost/api/docs)
 - **Production URL**: [https://crop-disease-ai-6w67.onrender.com/](https://crop-disease-ai-6w67.onrender.com/)
 
 ---
