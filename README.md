@@ -2,7 +2,7 @@
 
 **CropScan AI** is a state-of-the-art agricultural diagnostic tool that leverages deep learning to identify 38 types of plant diseases from simple leaf photographs. Designed for accessibility and speed, it provides farmers and gardeners with instant treatment advice and a comprehensive analytics dashboard.
 
-### 🌐 Live Preview: [https://crop-disease-ai-6w67.onrender.com/](https://crop-disease-ai-6w67.onrender.com/)
+### Live Preview: [https://crop-disease-ai-6w67.onrender.com/](https://crop-disease-ai-6w67.onrender.com/)
 
 ---
 
@@ -28,31 +28,31 @@
 | **Linux / macOS** | `chmod +x setup.sh && ./setup.sh` |
 | **Windows** | Double-click `setup.bat` |
 
-### Service URLs (Local)
-- **Main Application**: [http://localhost:8000](http://localhost:8000)
+### Service URLs
+- **Application**: [http://localhost:8000](http://localhost:8000)
 - **API Documentation**: [http://localhost:8000/api/docs](http://localhost:8000/api/docs)
-
-### Service URLs (Production)
-- **Live Site**: [https://crop-disease-ai-6w67.onrender.com/](https://crop-disease-ai-6w67.onrender.com/)
-- **Live API Docs**: [https://crop-disease-ai-6w67.onrender.com/api/docs](https://crop-disease-ai-6w67.onrender.com/api/docs)
+- **Production URL**: [https://crop-disease-ai-6w67.onrender.com/](https://crop-disease-ai-6w67.onrender.com/)
 
 ---
 
 ## Project Architecture
 
 ```mermaid
-graph LR
-    A[Browser] -->|HTTP| B(FastAPI Server)
-    B -->|Serves| C[React Static Files]
-    B -->|Inference| D[TensorFlow Model]
-    D -->|Lookup| E[Disease Data JSON]
+graph TD
+    User([User Browser]) -->|HTTP| FastAPI[FastAPI Server /app]
+    subgraph "Unified Docker Container"
+        FastAPI -->|Serves| Static[React Static Files /app/static]
+        FastAPI -->|Inference| Model[TensorFlow Model /app/model]
+        Model -->|Labels| JSON[Disease Metadata JSON]
+    end
 ```
 
 ### Folder Structure
-- `frontend/`: React 18 application with Recharts analytics.
-- `backend/`: FastAPI server with async endpoints.
-- `backend/model/`: MobileNetV2 model files, training scripts, and disease database.
-- `docker-compose.yml`: Orchestration for the 2-service architecture.
+- `backend/`: FastAPI implementation, API logic, and models.
+- `frontend/`: React source code (built via multi-stage Docker).
+- `docs/`: Project documentation (Proposal, Methodology, Reports).
+- `Dockerfile`: Unified multi-stage build for production.
+- `docker-compose.yml`: Local development orchestration.
 
 ---
 
