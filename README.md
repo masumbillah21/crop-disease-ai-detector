@@ -39,21 +39,41 @@
 
 ```mermaid
 graph TD
-    User([User]) -->|Browse & Upload| UI[React Web Interface]
-    UI -->|API Requests| API[FastAPI Backend]
-
-    subgraph "Single Docker Container"
-        API -->|Serves Static Files| UI
-        API -->|AI Inference| Model[MobileNetV2 Model]
-    end
+    User([User]) -->|Upload Image| React[React Frontend]
+    React -->|API Call /api/predict| FastAPI[FastAPI Backend]
+    FastAPI -->|Preprocess Image| Model[MobileNetV2 Model]
+    Model -->|Class Prediction| DiseaseDB[Disease Info JSON]
+    DiseaseDB -->|Diagnosis + Treatment| FastAPI
+    FastAPI -->|JSON Response| React
+    React -->|Display Results| User
 ```
 
 ### Folder Structure
-- `backend/`: FastAPI implementation, API logic, and models.
-- `frontend/`: React source code (built via multi-stage Docker).
-- `docs/`: Project documentation (Proposal, Methodology, Reports).
-- `Dockerfile`: Unified multi-stage build for production.
-- `docker-compose.yml`: Local development orchestration.
+
+```
+crop-disease-docker/
+├── backend/                  # FastAPI server
+│   ├── main.py               # API endpoints & static file serving
+│   ├── demo_data.json        # Fallback demo predictions
+│   ├── requirements.txt      # Python dependencies
+│   └── model/                # ML pipeline
+│       ├── predict.py        # Inference logic
+│       ├── train_model.py    # Training script
+│       ├── download_dataset.py
+│       ├── crop_disease_model.h5
+│       ├── class_names.json
+│       └── disease_info.json
+├── frontend/                 # React + Vite
+│   ├── src/App.jsx           # Main UI component
+│   ├── vite.config.js
+│   ├── nginx.conf            # Dev proxy config
+│   └── index.html
+├── docs/                     # Documentation
+├── Dockerfile                # Production multi-stage build
+├── docker-compose.yml        # Local dev (2-service)
+├── setup.sh / setup.bat      # Quick start scripts
+└── Makefile                  # Build commands
+```
 
 ---
 
