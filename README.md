@@ -39,11 +39,12 @@
 
 ```mermaid
 graph TD
-    User([User Browser]) -->|HTTP| FastAPI[FastAPI Server /app]
-    subgraph "Unified Docker Container"
-        FastAPI -->|Serves| Static[React Static Files /app/static]
-        FastAPI -->|Inference| Model[TensorFlow Model /app/model]
-        Model -->|Labels| JSON[Disease Metadata JSON]
+    User([User]) -->|Browse & Upload| UI[React Web Interface]
+    UI -->|API Requests| API[FastAPI Backend]
+
+    subgraph "Single Docker Container"
+        API -->|Serves Static Files| UI
+        API -->|AI Inference| Model[MobileNetV2 Model]
     end
 ```
 
