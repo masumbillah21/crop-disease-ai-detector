@@ -27,7 +27,7 @@ COPY --from=backend-builder /install /usr/local
 COPY --from=frontend-builder /build-frontend/dist /app/static
 
 # Copy backend code
-COPY backend/main.py backend/demo_data.json ./
+COPY backend/main.py backend/config.py backend/demo_data.json ./
 COPY backend/model /app/model
 
 RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
