@@ -193,8 +193,12 @@ def plot_history(h1, h2):
 
 plot_history(history1, history2)
 
-# Export as SavedModel for Docker (cross-version compatible)
-model.export(SAVEDMODEL_PATH)
+# Export as SavedModel for Docker (use model.save for Keras compatibility)
+# NOTE: model.save() creates a format loadable by tf.keras.models.load_model()
+# Do NOT use model.export() — it creates a serving-only format that produces
+# different output (logits instead of softmax probabilities)
+model.save(SAVEDMODEL_PATH)
 print(f"\nModel saved to: {MODEL_SAVE_PATH}")
 print(f"SavedModel exported to: {SAVEDMODEL_PATH}")
 print(f"Class names saved to: {CLASS_NAMES_PATH}")
+

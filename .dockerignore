@@ -5,5 +5,5 @@
 **/.git/
 **/.env
 **/venv/
-**/*.h5
+# Note: .h5 model is needed for production — do NOT exclude it
 **/training_history.png

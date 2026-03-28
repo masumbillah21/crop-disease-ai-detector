@@ -59,19 +59,10 @@ scan_history = []  # list of {"name", "severity", "confidence", "timestamp"}
 async def load_model():
     global predictor, model_error
     try:
-        # Try SavedModel directory first
         predictor = CropDiseasePredictor(MODEL_PATH, CLASS_NAMES_PATH)
-    except Exception as e1:
-        model_error = f"SavedModel load failed: {str(e1)}"
-        try:
-            # Fallback to .h5 if it exists
-            h5_path = f"{MODEL_PATH}.h5"
-            if os.path.exists(h5_path):
-                predictor = CropDiseasePredictor(h5_path, CLASS_NAMES_PATH)
-                model_error = None # Success
-        except Exception as e2:
-            model_error = f"Both load methods failed. 1: {str(e1)} | 2: {str(e2)}"
-            print(f"Model error: {model_error}")
+    except Exception as e:
+        model_error = f"Model load failed: {str(e)}"
+        print(f"❌ Model error: {model_error}")
 
 # ─── Endpoints ────────────────────────────────────────────────
 @app.get("/api", include_in_schema=False)

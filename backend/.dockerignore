@@ -4,7 +4,7 @@ __pycache__/
 .env
 .venv/
 venv/
-*.h5
+# Note: .h5 model is needed — do NOT exclude
 *.png
 *.jpg
 .git/

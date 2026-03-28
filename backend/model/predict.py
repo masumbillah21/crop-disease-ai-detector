@@ -32,23 +32,46 @@ class CropDiseasePredictor:
         with open(class_names_path) as f:
             self.class_names = json.load(f)
 
-        # Detect model type
-        if model_path.endswith('.h5') or os.path.isfile(model_path):
+        self._is_keras = False
+        self._serve = None
+        self.model = None
+
+        # Strategy 1: Try tf.keras.models.load_model() first (works for .h5 AND SavedModel)
+        # This is the most reliable path — uses model.predict() which preserves softmax output
+        try:
+            self.model = tf.keras.models.load_model(model_path)
+            self._is_keras = True
+            print(f"Keras model loaded | {len(self.class_names)} classes")
+            return
+        except Exception as e:
+            print(f"Keras load failed for {model_path}: {e}")
+
+        # Strategy 2: Try .h5 fallback (most reliable format for inference)
+        h5_path = model_path + ".h5" if not model_path.endswith(".h5") else model_path
+        h5_dir = os.path.join(os.path.dirname(model_path), "crop_disease_model.h5")
+        for path in [h5_path, h5_dir]:
+            if os.path.isfile(path):
+                try:
+                    self.model = tf.keras.models.load_model(path)
+                    self._is_keras = True
+                    print(f"H5 model loaded from {path} | {len(self.class_names)} classes")
+                    return
+                except Exception as e:
+                    print(f"H5 load failed for {path}: {e}")
+
+        # Strategy 3: Last resort — tf.saved_model.load() for export()-style SavedModel
+        if os.path.isdir(model_path):
             try:
-                self.model = tf.keras.models.load_model(model_path)
-                self._is_h5 = True
-                print(f"H5 Model loaded | {len(self.class_names)} classes")
-            except Exception as e:
-                # Fallback: maybe it's a SavedModel file (less common)
                 self.model = tf.saved_model.load(model_path)
                 self._serve = self.model.signatures["serving_default"]
-                self._is_h5 = False
-                print(f"SavedModel loaded | {len(self.class_names)} classes")
-        else:
-            self.model = tf.saved_model.load(model_path)
-            self._serve = self.model.signatures["serving_default"]
-            self._is_h5 = False
-            print(f"SavedModel loaded | {len(self.class_names)} classes")
+                self._is_keras = False
+                print(f"SavedModel loaded (serving) | {len(self.class_names)} classes")
+                return
+            except Exception as e:
+                print(f"SavedModel load failed: {e}")
+
+        if self.model is None:
+            raise RuntimeError(f"Could not load model from any source. Tried: {model_path}")
 
     def predict_from_image(self, pil_image):
         """Predict disease from a PIL Image (used by the API)."""
@@ -65,13 +88,19 @@ class CropDiseasePredictor:
 
     def _run_prediction(self, img_array):
         """Core prediction logic shared by both entry points."""
-        if self._is_h5:
+        if self._is_keras:
             predictions = self.model.predict(img_array, verbose=0)
         else:
             output = self._serve(tf.constant(img_array))
-            # Get the first (and only) output tensor from the signature
             output_key = list(output.keys())[0]
-            predictions = output[output_key].numpy()
+            raw = output[output_key].numpy()
+            # If the model was exported with model.export(), the output may be
+            # logits instead of probabilities. Apply softmax if values aren't
+            # already in the [0, 1] probability range summing to ~1.
+            if raw.sum() < 0.99 or raw.sum() > 1.01 or raw.min() < 0:
+                predictions = tf.nn.softmax(raw).numpy()
+            else:
+                predictions = raw
         
         top5_indices = np.argsort(predictions[0])[-5:][::-1]
         top5 = [
