@@ -1,6 +1,11 @@
 # CropScan AI — Makefile
 
-.PHONY: start dev down build logs restart setup-model download-dataset train help
+# Deployment Config
+DOCKER_USER ?= $(shell docker info | grep Username | awk '{print $$2}' || echo "your-username")
+IMAGE_NAME = cropscan-ai
+TAG = latest
+
+.PHONY: start dev down build logs restart setup-model download-dataset train help push release build-prod
 
 start: build
 	docker compose up -d
@@ -12,6 +17,17 @@ dev:
 
 build:
 	docker compose build
+
+build-prod:
+	docker build -t $(DOCKER_USER)/$(IMAGE_NAME):$(TAG) .
+	@echo "\nProduction image built: $(DOCKER_USER)/$(IMAGE_NAME):$(TAG)\n"
+
+tag:
+	docker tag $(DOCKER_USER)/$(IMAGE_NAME):$(TAG) $(DOCKER_USER)/$(IMAGE_NAME):$(TAG)
+
+push: build-prod
+	docker push $(DOCKER_USER)/$(IMAGE_NAME):$(TAG)
+	@echo "\nSuccessfully pushed to Docker Hub!\n"
 
 down:
 	docker compose down
@@ -40,14 +56,12 @@ clean:
 help:
 	@echo ""
 	@echo "  CropScan AI — Commands"
-	@echo "  make start           Build + start"
-	@echo "  make dev             Start (cached images)"
+	@echo "  make start           Build + start (local dev)"
+	@echo "  make build-prod      Build production image"
+	@echo "  make push            Build + push to Docker Hub"
 	@echo "  make down            Stop all services"
 	@echo "  make restart         Restart all services"
-	@echo "  make restart-api     Restart backend only"
 	@echo "  make logs            Stream logs"
 	@echo "  make setup-model     Download dataset + train model"
-	@echo "  make download-dataset  Download dataset only"
-	@echo "  make train           Train model only"
 	@echo "  make clean           Full cleanup"
 	@echo ""

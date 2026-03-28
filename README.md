@@ -192,10 +192,26 @@ Detailed project records are maintained in the `docs/` directory:
 
 ## Deployment
 
-This application is designed to be cloud-agnostic. For production deployment:
-1. Ensure `.env` is properly configured (defaults are loaded automatically via `backend/config.py` using `python-dotenv`).
-2. Build optimized images: `docker compose -f docker-compose.yml build`.
-3. Deploy to any container orchestration service (AWS ECS, Google Cloud Run, DigitalOcean App Platform, or Render).
+### Docker Hub (Recommended)
+You can easily build and push this application to Docker Hub:
+
+1. **Login to Docker Hub**:
+   ```bash
+   docker login
+   ```
+2. **Build & Push**:
+   ```bash
+   make push DOCKER_USER=your_username
+   ```
+   *(This will create a single, optimized multi-stage image at `your_username/cropscan-ai:latest`)*
+
+### Cloud Hosting
+The resulting image is cloud-agnostic and can be deployed to:
+- **Render**: Connect your GitHub repo and use the root `Dockerfile`.
+- **AWS App Runner / ECS**: Push to ECR or Docker Hub.
+- **Google Cloud Run**: `gcloud run deploy`.
+
+Ensure your `.env` variables (like `PORT`) are correctly set in your cloud provider's dashboard.
 
 ---
 *Developed for the AI Crop Disease Challenge.*
