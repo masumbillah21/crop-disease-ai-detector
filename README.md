@@ -17,21 +17,80 @@
 
 ---
 
-## Quick Start
+## Installation & Setup
 
-### Prerequisites
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running.
+### 1. Prerequisites
+- **Git**: For cloning the repository.
+- **Docker Desktop**: [Download and install](https://www.docker.com/products/docker-desktop/) Docker. Ensure it is running before proceeding.
+- **Python 3.11+**: Optional, only required for local non-dockerized training or development.
 
-### One-Command Setup
-| OS | Command |
-| :--- | :--- |
-| **Linux / macOS** | `chmod +x setup.sh && ./setup.sh` |
-| **Windows** | Double-click `setup.bat` |
+### 2. Getting Started
+Clone the repository and navigate to the project directory:
+```bash
+git clone https://github.com/masumbillah21/crop-disease-ai-detector.git
+cd crop-disease-docker
+```
 
-### Service URLs
-- **Application**: [http://localhost](http://localhost)
+### 3. Environment Configuration
+Create a `.env` file from the example:
+```bash
+cp .env.example .env
+```
+*(No further environmental changes are typically required for local setup)*
+
+### 4. Running the Application (Local)
+Choose one of the following methods:
+
+#### Method A: One-Click Setup (Recommended)
+This script handles dependency checks, `.env` creation, and starts the Docker containers.
+- **Linux / macOS**: `chmod +x setup.sh && ./setup.sh`
+- **Windows**: Double-click `setup.bat`
+
+#### Method B: Docker Compose
+Standard command for containerized environments:
+```bash
+docker compose up -d --build
+```
+
+#### Method C: Makefile (Convenience)
+If you have `make` installed:
+```bash
+make start
+```
+
+### 5. Service URLs
+Once the containers are running, access the services:
+- **Web App**: [http://localhost](http://localhost) (Mapping to port 80)
 - **API Documentation**: [http://localhost/api/docs](http://localhost/api/docs)
 - **Production URL**: [https://crop-disease-ai-6w67.onrender.com/](https://crop-disease-ai-6w67.onrender.com/)
+
+---
+
+## Model Initialization & Training
+
+The project comes with a demo model (`backend/model/crop_disease_model`). To use the full dataset or retrain:
+
+1. **Download Dataset**:
+   ```bash
+   make download-dataset
+   ```
+2. **Train Model**:
+   ```bash
+   make train
+   ```
+3. **Deploy to App**:
+   Restart the backend container to load the new weights:
+   ```bash
+   make restart-api
+   ```
+
+---
+
+## Troubleshooting
+
+- **Port 80 Conflict**: If port 80 is already in use by another service (like Apache or Nginx), change the mapping in `docker-compose.yml` for the `frontend` service (e.g., `"8080:80"`).
+- **Docker Not Running**: Ensure Docker Desktop is active. Run `docker info` to verify.
+- **Build Errors**: Try a clean build: `make clean && make start`.
 
 ---
 
