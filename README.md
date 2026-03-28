@@ -8,7 +8,15 @@
 
 ## Usage & Screenshots
 
-*(Screenshots will be placed here after deployment/local capture)*
+### 📸 App Screenshots
+
+| Home (Image Upload) | Diagnosis Result |
+| :---: | :---: |
+| ![Upload](./screenshots/image_upload_screen.png) | ![Detection](./screenshots/disease_detected.png) |
+
+| Healthy Leaf View | Analytics Dashboard |
+| :---: | :---: |
+| ![Healthy](./screenshots/healthy_leaf.png) | ![Dashboard](./screenshots/Dashboard.png) |
 
 1. **Upload**: Drag and drop a photo or browse your files.
 2. **Analyze**: The AI model (MobileNetV2) processes the image in milliseconds.

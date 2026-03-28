@@ -38,7 +38,9 @@
       "display_name": "Healthy Apple Plant",
       "severity": "None",
       "description": "The plant appears healthy with no signs of disease.",
-      "treatment": ["No treatment needed"],
+      "treatment": [
+        "No treatment needed"
+      ],
       "prevention": "Continue regular monitoring and good agricultural practices"
     },
     "Corn_(maize)___Cercospora_leaf_spot Gray_leaf_spot": {
@@ -79,7 +81,9 @@
       "display_name": "Healthy Tomato Plant",
       "severity": "None",
       "description": "The plant appears healthy with no signs of disease.",
-      "treatment": ["No treatment needed"],
+      "treatment": [
+        "No treatment needed"
+      ],
       "prevention": "Continue regular monitoring and proper watering"
     },
     "Potato___Late_blight": {
@@ -98,8 +102,300 @@
       "display_name": "Healthy Potato Plant",
       "severity": "None",
       "description": "The plant appears healthy with no signs of disease.",
-      "treatment": ["No treatment needed"],
+      "treatment": [
+        "No treatment needed"
+      ],
       "prevention": "Ensure proper spacing and drainage"
+    },
+    "Blueberry___healthy": {
+      "display_name": "Blueberry - healthy",
+      "severity": "None",
+      "description": "The Blueberry plant appears healthy.",
+      "treatment": [
+        "No treatment needed"
+      ],
+      "prevention": "Continue regular monitoring."
+    },
+    "Cherry_(including_sour)___Powdery_mildew": {
+      "display_name": "Cherry (including sour) - Powdery mildew",
+      "severity": "Moderate",
+      "description": "A disease affecting Cherry (including sour) plants. Diagnosis based on leaf patterns.",
+      "treatment": [
+        "Apply appropriate fungicides",
+        "Remove infected leaves",
+        "Ensure good air circulation"
+      ],
+      "prevention": "Practice crop rotation and maintain garden sanitation."
+    },
+    "Cherry_(including_sour)___healthy": {
+      "display_name": "Cherry (including sour) - healthy",
+      "severity": "None",
+      "description": "The Cherry (including sour) plant appears healthy.",
+      "treatment": [
+        "No treatment needed"
+      ],
+      "prevention": "Continue regular monitoring."
+    },
+    "Corn_(maize)___Northern_Leaf_Blight": {
+      "display_name": "Corn (maize) - Northern Leaf Blight",
+      "severity": "Moderate",
+      "description": "A disease affecting Corn (maize) plants. Diagnosis based on leaf patterns.",
+      "treatment": [
+        "Apply appropriate fungicides",
+        "Remove infected leaves",
+        "Ensure good air circulation"
+      ],
+      "prevention": "Practice crop rotation and maintain garden sanitation."
+    },
+    "Corn_(maize)___healthy": {
+      "display_name": "Corn (maize) - healthy",
+      "severity": "None",
+      "description": "The Corn (maize) plant appears healthy.",
+      "treatment": [
+        "No treatment needed"
+      ],
+      "prevention": "Continue regular monitoring."
+    },
+    "Grape___Black_rot": {
+      "display_name": "Grape - Black rot",
+      "severity": "Moderate",
+      "description": "A disease affecting Grape plants. Diagnosis based on leaf patterns.",
+      "treatment": [
+        "Apply appropriate fungicides",
+        "Remove infected leaves",
+        "Ensure good air circulation"
+      ],
+      "prevention": "Practice crop rotation and maintain garden sanitation."
+    },
+    "Grape___Esca_(Black_Measles)": {
+      "display_name": "Grape - Esca (Black Measles)",
+      "severity": "Moderate",
+      "description": "A disease affecting Grape plants. Diagnosis based on leaf patterns.",
+      "treatment": [
+        "Apply appropriate fungicides",
+        "Remove infected leaves",
+        "Ensure good air circulation"
+      ],
+      "prevention": "Practice crop rotation and maintain garden sanitation."
+    },
+    "Grape___Leaf_blight_(Isariopsis_Leaf_Spot)": {
+      "display_name": "Grape - Leaf blight (Isariopsis Leaf Spot)",
+      "severity": "Moderate",
+      "description": "A disease affecting Grape plants. Diagnosis based on leaf patterns.",
+      "treatment": [
+        "Apply appropriate fungicides",
+        "Remove infected leaves",
+        "Ensure good air circulation"
+      ],
+      "prevention": "Practice crop rotation and maintain garden sanitation."
+    },
+    "Grape___healthy": {
+      "display_name": "Grape - healthy",
+      "severity": "None",
+      "description": "The Grape plant appears healthy.",
+      "treatment": [
+        "No treatment needed"
+      ],
+      "prevention": "Continue regular monitoring."
+    },
+    "Orange___Haunglongbing_(Citrus_greening)": {
+      "display_name": "Orange - Haunglongbing (Citrus greening)",
+      "severity": "Moderate",
+      "description": "A disease affecting Orange plants. Diagnosis based on leaf patterns.",
+      "treatment": [
+        "Apply appropriate fungicides",
+        "Remove infected leaves",
+        "Ensure good air circulation"
+      ],
+      "prevention": "Practice crop rotation and maintain garden sanitation."
+    },
+    "Peach___Bacterial_spot": {
+      "display_name": "Peach - Bacterial spot",
+      "severity": "Moderate",
+      "description": "A disease affecting Peach plants. Diagnosis based on leaf patterns.",
+      "treatment": [
+        "Apply appropriate fungicides",
+        "Remove infected leaves",
+        "Ensure good air circulation"
+      ],
+      "prevention": "Practice crop rotation and maintain garden sanitation."
+    },
+    "Peach___healthy": {
+      "display_name": "Peach - healthy",
+      "severity": "None",
+      "description": "The Peach plant appears healthy.",
+      "treatment": [
+        "No treatment needed"
+      ],
+      "prevention": "Continue regular monitoring."
+    },
+    "Pepper,_bell___Bacterial_spot": {
+      "display_name": "Pepper, bell - Bacterial spot",
+      "severity": "Moderate",
+      "description": "A disease affecting Pepper, bell plants. Diagnosis based on leaf patterns.",
+      "treatment": [
+        "Apply appropriate fungicides",
+        "Remove infected leaves",
+        "Ensure good air circulation"
+      ],
+      "prevention": "Practice crop rotation and maintain garden sanitation."
+    },
+    "Pepper,_bell___healthy": {
+      "display_name": "Pepper, bell - healthy",
+      "severity": "None",
+      "description": "The Pepper, bell plant appears healthy.",
+      "treatment": [
+        "No treatment needed"
+      ],
+      "prevention": "Continue regular monitoring."
+    },
+    "Potato___Early_blight": {
+      "display_name": "Potato - Early blight",
+      "severity": "Moderate",
+      "description": "A disease affecting Potato plants. Diagnosis based on leaf patterns.",
+      "treatment": [
+        "Apply appropriate fungicides",
+        "Remove infected leaves",
+        "Ensure good air circulation"
+      ],
+      "prevention": "Practice crop rotation and maintain garden sanitation."
+    },
+    "Raspberry___healthy": {
+      "display_name": "Raspberry - healthy",
+      "severity": "None",
+      "description": "The Raspberry plant appears healthy.",
+      "treatment": [
+        "No treatment needed"
+      ],
+      "prevention": "Continue regular monitoring."
+    },
+    "Soybean___healthy": {
+      "display_name": "Soybean - healthy",
+      "severity": "None",
+      "description": "The Soybean plant appears healthy.",
+      "treatment": [
+        "No treatment needed"
+      ],
+      "prevention": "Continue regular monitoring."
+    },
+    "Squash___Powdery_mildew": {
+      "display_name": "Squash - Powdery mildew",
+      "severity": "Moderate",
+      "description": "A disease affecting Squash plants. Diagnosis based on leaf patterns.",
+      "treatment": [
+        "Apply appropriate fungicides",
+        "Remove infected leaves",
+        "Ensure good air circulation"
+      ],
+      "prevention": "Practice crop rotation and maintain garden sanitation."
+    },
+    "Strawberry___Leaf_scorch": {
+      "display_name": "Strawberry - Leaf scorch",
+      "severity": "Moderate",
+      "description": "A disease affecting Strawberry plants. Diagnosis based on leaf patterns.",
+      "treatment": [
+        "Apply appropriate fungicides",
+        "Remove infected leaves",
+        "Ensure good air circulation"
+      ],
+      "prevention": "Practice crop rotation and maintain garden sanitation."
+    },
+    "Strawberry___healthy": {
+      "display_name": "Strawberry - healthy",
+      "severity": "None",
+      "description": "The Strawberry plant appears healthy.",
+      "treatment": [
+        "No treatment needed"
+      ],
+      "prevention": "Continue regular monitoring."
+    },
+    "Tomato___Bacterial_spot": {
+      "display_name": "Tomato - Bacterial spot",
+      "severity": "Moderate",
+      "description": "A disease affecting Tomato plants. Diagnosis based on leaf patterns.",
+      "treatment": [
+        "Apply appropriate fungicides",
+        "Remove infected leaves",
+        "Ensure good air circulation"
+      ],
+      "prevention": "Practice crop rotation and maintain garden sanitation."
+    },
+    "Tomato___Early_blight": {
+      "display_name": "Tomato - Early blight",
+      "severity": "Moderate",
+      "description": "A disease affecting Tomato plants. Diagnosis based on leaf patterns.",
+      "treatment": [
+        "Apply appropriate fungicides",
+        "Remove infected leaves",
+        "Ensure good air circulation"
+      ],
+      "prevention": "Practice crop rotation and maintain garden sanitation."
+    },
+    "Tomato___Leaf_Mold": {
+      "display_name": "Tomato - Leaf Mold",
+      "severity": "Moderate",
+      "description": "A disease affecting Tomato plants. Diagnosis based on leaf patterns.",
+      "treatment": [
+        "Apply appropriate fungicides",
+        "Remove infected leaves",
+        "Ensure good air circulation"
+      ],
+      "prevention": "Practice crop rotation and maintain garden sanitation."
+    },
+    "Tomato___Septoria_leaf_spot": {
+      "display_name": "Tomato - Septoria leaf spot",
+      "severity": "Moderate",
+      "description": "A disease affecting Tomato plants. Diagnosis based on leaf patterns.",
+      "treatment": [
+        "Apply appropriate fungicides",
+        "Remove infected leaves",
+        "Ensure good air circulation"
+      ],
+      "prevention": "Practice crop rotation and maintain garden sanitation."
+    },
+    "Tomato___Spider_mites Two-spotted_spider_mite": {
+      "display_name": "Tomato - Spider mites Two-spotted spider mite",
+      "severity": "Moderate",
+      "description": "A disease affecting Tomato plants. Diagnosis based on leaf patterns.",
+      "treatment": [
+        "Apply appropriate fungicides",
+        "Remove infected leaves",
+        "Ensure good air circulation"
+      ],
+      "prevention": "Practice crop rotation and maintain garden sanitation."
+    },
+    "Tomato___Target_Spot": {
+      "display_name": "Tomato - Target Spot",
+      "severity": "Moderate",
+      "description": "A disease affecting Tomato plants. Diagnosis based on leaf patterns.",
+      "treatment": [
+        "Apply appropriate fungicides",
+        "Remove infected leaves",
+        "Ensure good air circulation"
+      ],
+      "prevention": "Practice crop rotation and maintain garden sanitation."
+    },
+    "Tomato___Tomato_Yellow_Leaf_Curl_Virus": {
+      "display_name": "Tomato - Tomato Yellow Leaf Curl Virus",
+      "severity": "Moderate",
+      "description": "A disease affecting Tomato plants. Diagnosis based on leaf patterns.",
+      "treatment": [
+        "Apply appropriate fungicides",
+        "Remove infected leaves",
+        "Ensure good air circulation"
+      ],
+      "prevention": "Practice crop rotation and maintain garden sanitation."
+    },
+    "Tomato___Tomato_mosaic_virus": {
+      "display_name": "Tomato - Tomato mosaic virus",
+      "severity": "Moderate",
+      "description": "A disease affecting Tomato plants. Diagnosis based on leaf patterns.",
+      "treatment": [
+        "Apply appropriate fungicides",
+        "Remove infected leaves",
+        "Ensure good air circulation"
+      ],
+      "prevention": "Practice crop rotation and maintain garden sanitation."
     }
   },
   "severity_colors": {

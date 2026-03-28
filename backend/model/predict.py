@@ -26,13 +26,29 @@ SEVERITY_COLOR = _disease_data["severity_colors"]
 
 class CropDiseasePredictor:
     def __init__(self, model_path: str, class_names_path: str):
-        print("🔄 Loading model...")
-        # Use tf.saved_model.load for cross-version compatibility
-        self.model = tf.saved_model.load(model_path)
-        self._serve = self.model.signatures["serving_default"]
+        print(f"Loading model from {model_path}...")
+        
+        # Load class names
         with open(class_names_path) as f:
             self.class_names = json.load(f)
-        print(f"✅ Model loaded | {len(self.class_names)} classes")
+
+        # Detect model type
+        if model_path.endswith('.h5') or os.path.isfile(model_path):
+            try:
+                self.model = tf.keras.models.load_model(model_path)
+                self._is_h5 = True
+                print(f"H5 Model loaded | {len(self.class_names)} classes")
+            except Exception as e:
+                # Fallback: maybe it's a SavedModel file (less common)
+                self.model = tf.saved_model.load(model_path)
+                self._serve = self.model.signatures["serving_default"]
+                self._is_h5 = False
+                print(f"SavedModel loaded | {len(self.class_names)} classes")
+        else:
+            self.model = tf.saved_model.load(model_path)
+            self._serve = self.model.signatures["serving_default"]
+            self._is_h5 = False
+            print(f"SavedModel loaded | {len(self.class_names)} classes")
 
     def predict_from_image(self, pil_image):
         """Predict disease from a PIL Image (used by the API)."""
@@ -49,10 +65,14 @@ class CropDiseasePredictor:
 
     def _run_prediction(self, img_array):
         """Core prediction logic shared by both entry points."""
-        output = self._serve(tf.constant(img_array))
-        # Get the first (and only) output tensor from the signature
-        output_key = list(output.keys())[0]
-        predictions = output[output_key].numpy()
+        if self._is_h5:
+            predictions = self.model.predict(img_array, verbose=0)
+        else:
+            output = self._serve(tf.constant(img_array))
+            # Get the first (and only) output tensor from the signature
+            output_key = list(output.keys())[0]
+            predictions = output[output_key].numpy()
+        
         top5_indices = np.argsort(predictions[0])[-5:][::-1]
         top5 = [
             {"class": self.class_names[str(i)], "confidence": float(predictions[0][i])}
@@ -85,4 +105,4 @@ class CropDiseasePredictor:
 if __name__ == "__main__":
     predictor = CropDiseasePredictor(config.MODEL_PATH, config.CLASS_NAMES_PATH)
     result = predictor.predict("test_leaf.jpg")
-    print(f"\n🌿 {result['display_name']} | {result['confidence']}% | {result['severity']}")
+    print(f"\n {result['display_name']} | {result['confidence']}% | {result['severity']}")
