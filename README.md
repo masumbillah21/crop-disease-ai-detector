@@ -8,7 +8,7 @@
 
 ## Usage & Screenshots
 
-### 📸 App Screenshots
+### App Screenshots
 
 | Home (Image Upload) | Diagnosis Result |
 | :---: | :---: |
