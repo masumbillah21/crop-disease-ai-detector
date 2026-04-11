@@ -82,10 +82,25 @@ The project comes with a demo model (`backend/model/crop_disease_model`). To use
    ```bash
    make download-dataset
    ```
+   By default, this downloads:
+   - `abdallahalidev/plantvillage-dataset`
+   - `jay7080dev/rice-plant-diseases-dataset`
+   - `abdulahad0296/indoor-plant-disease-detection-dataset`
+
+   Or download and merge one or more Kaggle datasets in a single step:
+   ```bash
+   KAGGLE_DATASETS="jay7080dev/rice-plant-diseases-dataset" make setup-model
+   ```
+   This will download the dataset into `backend/model/dataset/merged_dataset` and then train using that merged dataset.
+   For multiple datasets use a comma-separated list:
+   ```bash
+   KAGGLE_DATASETS="abdallahalidev/plantvillage-dataset,jay7080dev/rice-plant-diseases-dataset" make setup-model
+   ```
 2. **Train Model**:
    ```bash
    make train
    ```
+   This automatically uses the merged dataset if it exists (from `make download-dataset`), otherwise falls back to the default PlantVillage dataset.
 3. **Deploy to App**:
    Restart the backend container to load the new weights:
    ```bash

@@ -41,14 +41,15 @@ restart-api:
 logs:
 	docker compose logs -f
 
-setup-model: download-dataset train
+setup-model: download-dataset
+	DATASET_DIR=./backend/model/dataset/merged_dataset $(MAKE) train
 	@echo "\nModel ready! Run 'make restart-api' to use it.\n"
 
 download-dataset:
-	pip install kagglehub && python backend/model/download_dataset.py
+	pip install kagglehub && python backend/model/download_dataset.py $(KAGGLE_DATASETS)
 
 train:
-	cd backend/model && pip3 install tensorflow pillow numpy matplotlib && python3 train_model.py
+	cd backend/model && pip3 install tensorflow pillow numpy matplotlib python-dotenv && python3 train_model.py
 
 clean:
 	docker compose down -v --rmi local

@@ -46,18 +46,27 @@ class CropDiseasePredictor:
         except Exception as e:
             print(f"Keras load failed for {model_path}: {e}")
 
-        # Strategy 2: Try .h5 fallback (most reliable format for inference)
+        # Strategy 2: Try modern .keras or legacy .h5 fallback
+        keras_path = model_path + ".keras" if not model_path.endswith(".keras") else model_path
         h5_path = model_path + ".h5" if not model_path.endswith(".h5") else model_path
-        h5_dir = os.path.join(os.path.dirname(model_path), "crop_disease_model.h5")
-        for path in [h5_path, h5_dir]:
+        fallback_dir = os.path.dirname(model_path)
+        
+        candidates = [
+            keras_path,
+            h5_path,
+            os.path.join(fallback_dir, "crop_disease_model.keras"),
+            os.path.join(fallback_dir, "crop_disease_model.h5")
+        ]
+
+        for path in candidates:
             if os.path.isfile(path):
                 try:
                     self.model = tf.keras.models.load_model(path)
                     self._is_keras = True
-                    print(f"H5 model loaded from {path} | {len(self.class_names)} classes")
+                    print(f"Model loaded from {path} | {len(self.class_names)} classes")
                     return
                 except Exception as e:
-                    print(f"H5 load failed for {path}: {e}")
+                    print(f"Load failed for {path}: {e}")
 
         # Strategy 3: Last resort — tf.saved_model.load() for export()-style SavedModel
         if os.path.isdir(model_path):
