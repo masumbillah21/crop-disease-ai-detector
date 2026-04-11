@@ -8,7 +8,7 @@ load_dotenv()
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # Model and Data Paths
-MODEL_PATH = os.getenv("MODEL_PATH", os.path.join(BASE_DIR, "model", "crop_disease_model"))
+MODEL_PATH = os.getenv("MODEL_PATH", os.path.join(BASE_DIR, "model", "crop_disease_model.keras"))
 CLASS_NAMES_PATH = os.getenv("CLASS_NAMES_PATH", os.path.join(BASE_DIR, "model", "class_names.json"))
 
 # Prefer merged dataset if it exists
