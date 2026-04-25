@@ -85,14 +85,18 @@ class CropDiseasePredictor:
     def predict_from_image(self, pil_image):
         """Predict disease from a PIL Image (used by the API)."""
         img = pil_image.convert("RGB").resize((224, 224))
-        img_array = np.expand_dims(np.array(img, dtype=np.float32) / 255.0, axis=0)
+        # Use MobileNetV2 standard preprocessing: scale to [-1, 1]
+        img_array = (np.array(img, dtype=np.float32) / 127.5) - 1.0
+        img_array = np.expand_dims(img_array, axis=0)
         return self._run_prediction(img_array)
 
     def predict(self, img_path: str):
         """Predict disease from a file path (used for CLI testing)."""
         from PIL import Image
         img = Image.open(img_path).convert("RGB").resize((224, 224))
-        img_array = np.expand_dims(np.array(img, dtype=np.float32) / 255.0, axis=0)
+        # Use MobileNetV2 standard preprocessing: scale to [-1, 1]
+        img_array = (np.array(img, dtype=np.float32) / 127.5) - 1.0
+        img_array = np.expand_dims(img_array, axis=0)
         return self._run_prediction(img_array)
 
     def _run_prediction(self, img_array):
@@ -118,7 +122,15 @@ class CropDiseasePredictor:
         ]
 
         best = top5[0]
-        class_key = best["class"]
+        confidence = round(best["confidence"] * 100, 2)
+        
+        # Apply Confidence Threshold (OOD detection)
+        # If confidence is too low, we treat it as Unknown
+        if confidence < 50.0:
+            class_key = "Unknown"
+        else:
+            class_key = best["class"]
+
         info = DISEASE_INFO.get(class_key, {
             "display_name": class_key.replace("___", " - ").replace("_", " "),
             "severity": "Unknown",
@@ -130,7 +142,7 @@ class CropDiseasePredictor:
         return {
             "prediction": class_key,
             "display_name": info["display_name"],
-            "confidence": round(best["confidence"] * 100, 2),
+            "confidence": confidence,
             "severity": info["severity"],
             "severity_color": SEVERITY_COLOR.get(info["severity"], "#95a5a6"),
             "description": info["description"],

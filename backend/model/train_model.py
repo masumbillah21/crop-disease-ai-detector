@@ -11,6 +11,7 @@ from tensorflow.keras import layers, models
 from tensorflow.keras.applications import MobileNetV2
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping, ReduceLROnPlateau
+from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 import matplotlib.pyplot as plt
 import json
 import sys
@@ -35,7 +36,7 @@ CLASS_NAMES_PATH = config.CLASS_NAMES_PATH
 # DATA GENERATORS
 # ─────────────────────────────────────────
 train_datagen = ImageDataGenerator(
-    rescale=1./255,
+    preprocessing_function=preprocess_input,
     rotation_range=30,
     width_shift_range=0.2,
     height_shift_range=0.2,
@@ -48,7 +49,7 @@ train_datagen = ImageDataGenerator(
 )
 
 val_datagen = ImageDataGenerator(
-    rescale=1./255,
+    preprocessing_function=preprocess_input,
     validation_split=0.2
 )
 

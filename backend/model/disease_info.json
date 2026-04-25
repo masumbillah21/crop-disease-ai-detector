@@ -595,6 +595,17 @@
         "Increase humidity around the plant"
       ],
       "prevention": "Avoid using tap water with high fluoride content."
+    },
+    "Unknown": {
+      "display_name": "Unknown / Low Confidence",
+      "severity": "None",
+      "description": "The AI is not confident enough to identify a specific disease. This usually happens if the image is blurry, contains a non-supported crop, or is not a leaf.",
+      "treatment": [
+        "Retake the photo in better lighting",
+        "Ensure the leaf is clearly visible and centered",
+        "Verify that the crop is supported by the app"
+      ],
+      "prevention": "Keep the camera lens clean and avoid shadows on the leaf."
     }
   },
   "severity_colors": {

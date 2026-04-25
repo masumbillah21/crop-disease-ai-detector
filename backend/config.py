@@ -11,9 +11,8 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODEL_PATH = os.getenv("MODEL_PATH", os.path.join(BASE_DIR, "model", "crop_disease_model.keras"))
 CLASS_NAMES_PATH = os.getenv("CLASS_NAMES_PATH", os.path.join(BASE_DIR, "model", "class_names.json"))
 
-# Prefer merged dataset if it exists
-merged_dataset_path = os.path.join(BASE_DIR, "model", "dataset", "merged_dataset")
-default_dataset_dir = merged_dataset_path
+# Dataset Path
+default_dataset_dir = os.path.join(BASE_DIR, "model", "dataset")
 DATASET_DIR = os.getenv("DATASET_DIR", default_dataset_dir)
 
 MODEL_SAVE_PATH = os.getenv("MODEL_SAVE_PATH", os.path.join(BASE_DIR, "model", "crop_disease_model.keras"))
