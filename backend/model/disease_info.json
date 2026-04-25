@@ -396,6 +396,205 @@
         "Ensure good air circulation"
       ],
       "prevention": "Practice crop rotation and maintain garden sanitation."
+    },
+    "Brownspot": {
+      "display_name": "Rice Brown Spot",
+      "severity": "Moderate",
+      "description": "Fungal disease (Bipolaris oryzae) causing circular to oval brown spots with gray centers on leaves. Often associated with nutrient-deficient soil.",
+      "treatment": [
+        "Apply fungicides containing Azoxystrobin or Propiconazole",
+        "Improve soil fertility, especially nitrogen and potassium",
+        "Use disease-free certified seeds"
+      ],
+      "prevention": "Maintain balanced soil nutrition and use resistant varieties."
+    },
+    "Bacterialblight": {
+      "display_name": "Rice Bacterial Leaf Blight",
+      "severity": "Critical",
+      "description": "Bacterial infection (Xanthomonas oryzae) causing yellowing and drying of leaves starting from the tips. Can cause significant yield loss.",
+      "treatment": [
+        "Apply copper-based bactericides",
+        "Balance nitrogen application (avoid excess)",
+        "Remove infected stubble and weeds"
+      ],
+      "prevention": "Plant resistant varieties and avoid overhead irrigation during outbreaks."
+    },
+    "Leafsmut": {
+      "display_name": "Rice Leaf Smut",
+      "severity": "Moderate",
+      "description": "Fungal disease (Entyloma oryzae) that appears as small, slightly raised black spots (pustules) on both sides of the leaves.",
+      "treatment": [
+        "Generally doesn't require chemical treatment",
+        "Avoid excessive nitrogen fertilizer",
+        "Clean field of crop residues"
+      ],
+      "prevention": "Use balanced fertilization and crop rotation."
+    },
+    "Aloe_Anthracnose": {
+      "display_name": "Aloe - Anthracnose",
+      "severity": "Moderate",
+      "description": "Fungal infection causing sunken, dark brown to black spots on Aloe leaves, which may eventually lead to leaf rot.",
+      "treatment": [
+        "Remove and destroy infected leaves",
+        "Reduce humidity and avoid overhead watering",
+        "Apply copper-based fungicides if severe"
+      ],
+      "prevention": "Ensure good air circulation and avoid overwatering."
+    },
+    "Aloe_Healthy": {
+      "display_name": "Healthy Aloe Plant",
+      "severity": "None",
+      "description": "The Aloe plant appears healthy with firm, green leaves.",
+      "treatment": [
+        "No treatment needed"
+      ],
+      "prevention": "Continue regular monitoring and avoid overwatering."
+    },
+    "Aloe_LeafSpot": {
+      "display_name": "Aloe - Leaf Spot",
+      "severity": "Moderate",
+      "description": "Small brown or black spots on leaves caused by fungal or bacterial pathogens.",
+      "treatment": [
+        "Isolate the plant from others",
+        "Improve air circulation",
+        "Apply organic fungicides like neem oil"
+      ],
+      "prevention": "Avoid wetting the foliage during watering."
+    },
+    "Aloe_Rust": {
+      "display_name": "Aloe - Rust",
+      "severity": "Moderate",
+      "description": "Fungal disease characterized by raised orange or brown pustules on the underside of leaves.",
+      "treatment": [
+        "Remove infected leaves immediately",
+        "Apply sulfur-based fungicides",
+        "Avoid high humidity environments"
+      ],
+      "prevention": "Keep foliage dry and provide adequate spacing between plants."
+    },
+    "Aloe_Sunburn": {
+      "display_name": "Aloe - Sunburn",
+      "severity": "Moderate",
+      "description": "Damage caused by intense direct sunlight, appearing as bleached, red, or brown patches on the leaves.",
+      "treatment": [
+        "Move the plant to a shaded or filtered light area",
+        "Water the plant normally to help recovery",
+        "Do not remove leaves unless they are completely dried"
+      ],
+      "prevention": "Gradually acclimate plants to higher light levels."
+    },
+    "Cactus_Dactylopius_Opuntia": {
+      "display_name": "Cactus - Cochineal Insect",
+      "severity": "High",
+      "description": "Infestation by cochineal insects (Dactylopius opuntiae), appearing as white, cottony tufts on the cactus pads.",
+      "treatment": [
+        "Blast insects off with a strong stream of water",
+        "Apply insecticidal soap or neem oil",
+        "Use a brush dipped in alcohol to remove small clusters"
+      ],
+      "prevention": "Regularly inspect plants for white cottony spots."
+    },
+    "Cactus_Healthy": {
+      "display_name": "Healthy Cactus",
+      "severity": "None",
+      "description": "The cactus appears healthy and free from pests or disease.",
+      "treatment": [
+        "No treatment needed"
+      ],
+      "prevention": "Provide adequate light and avoid overwatering."
+    },
+    "Money_Plant_Bacterial_wilt_disease": {
+      "display_name": "Money Plant - Bacterial Wilt",
+      "severity": "Critical",
+      "description": "Serious bacterial infection causing sudden wilting and yellowing of leaves, often leading to plant death.",
+      "treatment": [
+        "Discard infected plants and soil",
+        "Sterilize all pots and tools",
+        "Avoid using cuttings from infected plants"
+      ],
+      "prevention": "Use sterile potting mix and avoid waterlogged soil."
+    },
+    "Money_Plant_Healthy": {
+      "display_name": "Healthy Money Plant",
+      "severity": "None",
+      "description": "The Money Plant appears healthy with vibrant green, glossy leaves.",
+      "treatment": [
+        "No treatment needed"
+      ],
+      "prevention": "Provide bright indirect light and regular watering."
+    },
+    "Money_Plant_Manganese_Toxicity": {
+      "display_name": "Money Plant - Manganese Toxicity",
+      "severity": "Moderate",
+      "description": "A physiological condition caused by excess manganese, leading to yellowing between veins and dark spots.",
+      "treatment": [
+        "Flush the soil with clean, pH-balanced water",
+        "Adjust soil pH to a more alkaline range",
+        "Stop using fertilizers containing manganese"
+      ],
+      "prevention": "Use balanced fertilizers and monitor soil pH."
+    },
+    "Snake_Plant_Anthracnose": {
+      "display_name": "Snake Plant - Anthracnose",
+      "severity": "Moderate",
+      "description": "Fungal disease causing tan, water-soaked spots with dark borders on the leaves.",
+      "treatment": [
+        "Remove and destroy infected leaves",
+        "Apply fungicides containing chlorothalonil",
+        "Keep the leaves dry"
+      ],
+      "prevention": "Avoid overwatering and ensure good drainage."
+    },
+    "Snake_Plant_Healthy": {
+      "display_name": "Healthy Snake Plant",
+      "severity": "None",
+      "description": "The Snake Plant appears healthy with upright, sturdy leaves.",
+      "treatment": [
+        "No treatment needed"
+      ],
+      "prevention": "Allow soil to dry between waterings."
+    },
+    "Snake_Plant_Leaf_Withering": {
+      "display_name": "Snake Plant - Leaf Withering",
+      "severity": "Moderate",
+      "description": "Leaves becoming wrinkled or limp due to severe dehydration or root rot from overwatering.",
+      "treatment": [
+        "Check soil moisture and roots",
+        "Adjust watering schedule (water if dry, repot if rot)",
+        "Ensure the pot has drainage holes"
+      ],
+      "prevention": "Maintain a consistent, appropriate watering schedule."
+    },
+    "Spider_Plant_Fungal_leaf_spot": {
+      "display_name": "Spider Plant - Fungal Leaf Spot",
+      "severity": "Moderate",
+      "description": "Small brown spots with yellow halos on leaves caused by fungal pathogens like Alternaria.",
+      "treatment": [
+        "Remove infected leaves",
+        "Apply neem oil or a copper fungicide",
+        "Increase spacing for better air circulation"
+      ],
+      "prevention": "Avoid overhead watering and keep humidity levels moderate."
+    },
+    "Spider_Plant_Healthy": {
+      "display_name": "Healthy Spider Plant",
+      "severity": "None",
+      "description": "The Spider Plant appears healthy with long, arching green or variegated leaves.",
+      "treatment": [
+        "No treatment needed"
+      ],
+      "prevention": "Provide bright indirect light and avoid fluoride-rich water."
+    },
+    "Spider_Plant_Leaf_Tip_Necrosis": {
+      "display_name": "Spider Plant - Tip Necrosis",
+      "severity": "Moderate",
+      "description": "Browning or drying of leaf tips often caused by low humidity, salt buildup, or fluoride in tap water.",
+      "treatment": [
+        "Use distilled or rainwater for watering",
+        "Flush soil to remove salt buildup",
+        "Increase humidity around the plant"
+      ],
+      "prevention": "Avoid using tap water with high fluoride content."
     }
   },
   "severity_colors": {
