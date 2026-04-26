@@ -195,8 +195,8 @@ def plot_history(h1, h2):
 
 plot_history(history1, history2)
 
-# Export as Legacy H5 for better compatibility
-model.save(SAVEDMODEL_PATH, save_format='h5')
+# Export as Keras format
+model.save(SAVEDMODEL_PATH)
 print(f"\nModel saved to: {MODEL_SAVE_PATH}")
 print(f"SavedModel exported to: {SAVEDMODEL_PATH}")
 print(f"Class names saved to: {CLASS_NAMES_PATH}")
