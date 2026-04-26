@@ -81,7 +81,7 @@ print(f"Training samples: {train_generator.samples}")
 print(f"Validation samples: {val_generator.samples}")
 
 # ─────────────────────────────────────────
-# BUILD MODEL (Transfer Learning)
+# BUILD MODEL (Transfer Learning - Functional API)
 # ─────────────────────────────────────────
 base_model = MobileNetV2(
     input_shape=(*IMG_SIZE, 3),
@@ -90,16 +90,17 @@ base_model = MobileNetV2(
 )
 base_model.trainable = False  # Freeze base layers
 
-model = models.Sequential([
-    base_model,
-    layers.GlobalAveragePooling2D(),
-    layers.BatchNormalization(),
-    layers.Dense(512, activation='relu'),
-    layers.Dropout(0.4),
-    layers.Dense(256, activation='relu'),
-    layers.Dropout(0.3),
-    layers.Dense(len(class_names), activation='softmax')
-])
+inputs = tf.keras.Input(shape=(*IMG_SIZE, 3))
+x = base_model(inputs, training=False)
+x = layers.GlobalAveragePooling2D()(x)
+x = layers.BatchNormalization()(x)
+x = layers.Dense(512, activation='relu')(x)
+x = layers.Dropout(0.4)(x)
+x = layers.Dense(256, activation='relu')(x)
+x = layers.Dropout(0.3)(x)
+outputs = layers.Dense(len(class_names), activation='softmax')(x)
+
+model = models.Model(inputs, outputs)
 
 model.compile(
     optimizer=tf.keras.optimizers.Adam(learning_rate=0.001),
@@ -194,11 +195,8 @@ def plot_history(h1, h2):
 
 plot_history(history1, history2)
 
-# Export as SavedModel for Docker (use model.save for Keras compatibility)
-# NOTE: model.save() creates a format loadable by tf.keras.models.load_model()
-# Do NOT use model.export() — it creates a serving-only format that produces
-# different output (logits instead of softmax probabilities)
-model.save(SAVEDMODEL_PATH)
+# Export as Legacy H5 for better compatibility
+model.save(SAVEDMODEL_PATH, save_format='h5')
 print(f"\nModel saved to: {MODEL_SAVE_PATH}")
 print(f"SavedModel exported to: {SAVEDMODEL_PATH}")
 print(f"Class names saved to: {CLASS_NAMES_PATH}")
