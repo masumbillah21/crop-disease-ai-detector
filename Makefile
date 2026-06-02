@@ -49,7 +49,7 @@ download-dataset:
 	pip install kagglehub && python backend/model/download_dataset.py $(KAGGLE_DATASETS)
 
 train:
-	cd backend/model && pip3 install tensorflow pillow numpy matplotlib python-dotenv && python3 train_model.py
+	python3 backend/model/train_model.py $(ARGS)
 
 clean:
 	docker compose down -v --rmi local

@@ -8,10 +8,9 @@ import os
 import numpy as np
 import tensorflow as tf
 from tensorflow.keras import layers, models
-from tensorflow.keras.applications import MobileNetV2
+from tensorflow.keras.applications import EfficientNetV2B0
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping, ReduceLROnPlateau
-from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 import matplotlib.pyplot as plt
 import json
 import sys
@@ -24,24 +23,33 @@ import config
 # ─────────────────────────────────────────
 # CONFIG
 # ─────────────────────────────────────────
+import argparse
+
+parser = argparse.ArgumentParser(description="Train Crop Disease Detection Model")
+parser.add_argument("--test", action="store_true", help="Run a quick 1-step test of the training pipeline")
+args = parser.parse_args()
+
 IMG_SIZE = (224, 224)
 BATCH_SIZE = 32
-EPOCHS = 20
+EPOCHS = 1 if args.test else 20
 DATASET_DIR = config.DATASET_DIR
 MODEL_SAVE_PATH = config.MODEL_SAVE_PATH
 SAVEDMODEL_PATH = config.MODEL_PATH
 CLASS_NAMES_PATH = config.CLASS_NAMES_PATH
 
+# Configure test run steps
+fit_kwargs = {"steps_per_epoch": 2, "validation_steps": 1} if args.test else {}
+
 # ─────────────────────────────────────────
 # DATA GENERATORS
 # ─────────────────────────────────────────
 train_datagen = ImageDataGenerator(
-    preprocessing_function=preprocess_input,
     rotation_range=30,
     width_shift_range=0.2,
     height_shift_range=0.2,
     shear_range=0.2,
     zoom_range=0.2,
+    brightness_range=[0.8, 1.2],  # Simulates varied indoor/outdoor lighting conditions
     horizontal_flip=True,
     vertical_flip=False,
     fill_mode='nearest',
@@ -49,7 +57,6 @@ train_datagen = ImageDataGenerator(
 )
 
 val_datagen = ImageDataGenerator(
-    preprocessing_function=preprocess_input,
     validation_split=0.2
 )
 
@@ -80,10 +87,26 @@ print(f"Found {len(class_names)} classes")
 print(f"Training samples: {train_generator.samples}")
 print(f"Validation samples: {val_generator.samples}")
 
+# Compute balanced class weights to handle severe class imbalance
+from collections import Counter
+class_counts = Counter(train_generator.classes)
+total_samples = train_generator.samples
+num_classes = len(class_names)
+
+class_weights = {}
+for cls_idx, count in class_counts.items():
+    weight = total_samples / (num_classes * count)
+    # Clip weights to prevent gradient explosions while maintaining class impact
+    class_weights[cls_idx] = float(np.clip(weight, 0.2, 8.0))
+
+print("\nComputed Class Weights (sample of first 5):")
+for i in list(class_weights.keys())[:5]:
+    print(f"  Class {i} ({class_names[i]}): count={class_counts[i]}, weight={class_weights[i]:.3f}")
+
 # ─────────────────────────────────────────
 # BUILD MODEL (Transfer Learning - Functional API)
 # ─────────────────────────────────────────
-base_model = MobileNetV2(
+base_model = EfficientNetV2B0(
     input_shape=(*IMG_SIZE, 3),
     include_top=False,
     weights='imagenet'
@@ -142,8 +165,10 @@ print("\nPhase 1: Training top layers...")
 history1 = model.fit(
     train_generator,
     validation_data=val_generator,
-    epochs=10,
-    callbacks=callbacks
+    epochs=1 if args.test else 10,
+    class_weight=class_weights,
+    callbacks=callbacks,
+    **fit_kwargs
 )
 
 # ─────────────────────────────────────────
@@ -164,7 +189,9 @@ history2 = model.fit(
     train_generator,
     validation_data=val_generator,
     epochs=EPOCHS,
-    callbacks=callbacks
+    class_weight=class_weights,
+    callbacks=callbacks,
+    **fit_kwargs
 )
 
 # ─────────────────────────────────────────

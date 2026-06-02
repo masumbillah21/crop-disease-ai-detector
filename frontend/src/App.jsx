@@ -414,6 +414,58 @@ export default function App() {
             <div style={{ maxWidth: 760, margin: "0 auto" }}>
               <UploadZone onFile={handleFile} loading={loading} />
 
+              {!result && !loading && (
+                <div style={{
+                  marginTop: 24,
+                  background: "rgba(15, 23, 42, 0.6)",
+                  backdropFilter: "blur(12px)",
+                  borderRadius: 20,
+                  padding: "24px 28px",
+                  border: "1px solid #1e293b",
+                  animation: "fadeIn 0.6s ease",
+                  boxShadow: "0 4px 30px rgba(0, 0, 0, 0.4)"
+                }}>
+                  <h3 style={{
+                    color: "#4ade80",
+                    fontSize: 15,
+                    fontWeight: 700,
+                    margin: "0 0 16px",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 8,
+                    letterSpacing: "0.02em"
+                  }}>
+                    💡 Tips for Accurate AI Diagnosis
+                  </h3>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 20 }}>
+                    <div style={{ background: "rgba(30, 41, 59, 0.3)", padding: 16, borderRadius: 12, border: "1px solid rgba(255,255,255,0.02)" }}>
+                      <p style={{ color: "#f1f5f9", fontSize: 13, fontWeight: 700, marginBottom: 6, display: "flex", alignItems: "center", gap: 6 }}>
+                        🔍 Close-up Focus
+                      </p>
+                      <p style={{ color: "#94a3b8", fontSize: 12, lineHeight: 1.6, margin: 0 }}>
+                        Photograph a single leaf close-up. Avoid taking photos of the entire plant, pot, or multiple plants at once.
+                      </p>
+                    </div>
+                    <div style={{ background: "rgba(30, 41, 59, 0.3)", padding: 16, borderRadius: 12, border: "1px solid rgba(255,255,255,0.02)" }}>
+                      <p style={{ color: "#f1f5f9", fontSize: 13, fontWeight: 700, marginBottom: 6, display: "flex", alignItems: "center", gap: 6 }}>
+                        ⚪ Plain Background
+                      </p>
+                      <p style={{ color: "#94a3b8", fontSize: 12, lineHeight: 1.6, margin: 0 }}>
+                        Use a clean, neutral background. Busy textures like wood planks, brick tiles, or moss poles confuse the AI.
+                      </p>
+                    </div>
+                    <div style={{ background: "rgba(30, 41, 59, 0.3)", padding: 16, borderRadius: 12, border: "1px solid rgba(255,255,255,0.02)" }}>
+                      <p style={{ color: "#f1f5f9", fontSize: 13, fontWeight: 700, marginBottom: 6, display: "flex", alignItems: "center", gap: 6 }}>
+                        ☀️ Good Lighting
+                      </p>
+                      <p style={{ color: "#94a3b8", fontSize: 12, lineHeight: 1.6, margin: 0 }}>
+                        Ensure bright, even daylight. Avoid dark shadows, strong camera flash glare, or blurry focus.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {error && (
                 <div style={{
                   marginTop: 20, background: "#4c0519", borderRadius: 12,

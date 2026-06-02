@@ -85,8 +85,8 @@ class CropDiseasePredictor:
     def predict_from_image(self, pil_image):
         """Predict disease from a PIL Image (used by the API)."""
         img = pil_image.convert("RGB").resize((224, 224))
-        # Use MobileNetV2 standard preprocessing: scale to [-1, 1]
-        img_array = (np.array(img, dtype=np.float32) / 127.5) - 1.0
+        # EfficientNetV2 expects input in range [0, 255] (built-in preprocessing layer)
+        img_array = np.array(img, dtype=np.float32)
         img_array = np.expand_dims(img_array, axis=0)
         return self._run_prediction(img_array)
 
@@ -94,8 +94,8 @@ class CropDiseasePredictor:
         """Predict disease from a file path (used for CLI testing)."""
         from PIL import Image
         img = Image.open(img_path).convert("RGB").resize((224, 224))
-        # Use MobileNetV2 standard preprocessing: scale to [-1, 1]
-        img_array = (np.array(img, dtype=np.float32) / 127.5) - 1.0
+        # EfficientNetV2 expects input in range [0, 255] (built-in preprocessing layer)
+        img_array = np.array(img, dtype=np.float32)
         img_array = np.expand_dims(img_array, axis=0)
         return self._run_prediction(img_array)
 
